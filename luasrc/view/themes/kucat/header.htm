@@ -209,10 +209,10 @@
 	local mode = 'light'
     local home = "overview" 
     local user = "admin" 
-	
+    local setbar = "1"
+	local bgqs = '1'
     local showword = ""
     local ssr = "" 
-    local setbar = "1"
     local gohome = bar .. "status/"  ..home
     local gouser = bar .. "system/"  ..user
     local gossr = bar .. "services/"  ..ssr
@@ -220,7 +220,6 @@
 	local fontd = '1.2rem' 
 	local fontz = '0.92rem' 
 	local fontx = '0.875rem'
-	local bgqs = '1'
 	local primary_rgbbody = '248,248,248'
 	local primary_rgbm = '45,102,147'
 	local primary_rgbm_ts = '0.8'
@@ -338,6 +337,9 @@ function downIcibaword()
     end
     if fs.access('/www/luci-static/kucat/img/showword') then
         showword = sys.exec("cat /www/luci-static/kucat/img/showword")
+    end
+	if showword  == '' then 
+			 showword = sys.exec("cat /etc/luci-static/kucat/img/pdshowword")
     end
 end
 
