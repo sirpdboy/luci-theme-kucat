@@ -1,6 +1,6 @@
 ﻿
 body {
-    font-family:  "Google Sans", "Microsoft Yahei", "WenQuanYi Micro Hei", "sans-serif", "Helvetica Neue", "Helvetica", "Hiragino Sans GB"!important
+    font-family:  "Microsoft Yahei", "Google Sans", "WenQuanYi Micro Hei", "sans-serif", "Helvetica Neue", "Helvetica", "Hiragino Sans GB"!important
 }
 body {
     color: #98a6ad;
@@ -89,7 +89,7 @@ header.bar-primary .container-bar-left .pdboy-goadvanced:before {
 
 #detail-bubble>div {
     border:  1px solid rgba(255,255,255,0.3);
-    border-radius: 2px;
+    border-radius: 3px;
     padding: 1px;
     background-color: rgba(var(--primary-rgbbody), 1)!important;
 
@@ -109,10 +109,15 @@ header.bar-primary .container-bar-left .pdboy-goadvanced:before {
 header.bg-primary {
      box-shadow: 0 0.5rem 1rem rgba(255, 255, 255, 0.35);
 }
-
+.showWord::after,
+.showWord::before ,
+header>.fill>.container>.showWord ,
+.showWord {
+    color: #e9eff3
+}
 
 header>.fill>.container>.brand {
-    font-family: "Google Sans", "Microsoft Yahei", "WenQuanYi Micro Hei", "sans-serif", "Helvetica Neue", "Helvetica", "Hiragino Sans GB";
+    font-family: "Microsoft Yahei", "Google Sans", "WenQuanYi Micro Hei", "sans-serif", "Helvetica Neue", "Helvetica", "Hiragino Sans GB";
     color: #e9eff3;
 }
 .pull-right a,
@@ -123,6 +128,7 @@ header>.fill>.container>.brand {
 .pull-right a:hover,
 .pull-right span a:hover {
     background-color: rgba(255, 255, 255, 0.2);
+    color: #f8f8f8;
 }
 
 
@@ -174,11 +180,6 @@ footer a {
     color: #bbb
 }
 
-
-.main .main-left .nav .slide .menu::before {
-    color: #bbb
-}
-
 .main .main-left .nav .slide .menu:after,
 .main .main-left .nav li.slide .menu::after {
     color: #bbb;
@@ -194,11 +195,12 @@ footer a {
 .main .main-left .nav li.slide .menu.active::after {
     color: #e9eff3
 }
-
+.main .main-left .nav>li>a:hover,
+ .main .main-left .nav>li>a.active,
 .main .main-left .nav li.slide .menu:hover,
 .main .main-left .nav li.slide .menu.active {
     background-color: rgba(255, 255, 255, 0.2);
-    color: #e9eff3
+    color: #e9eff3 !important;
 }
 
 .main .main-left .nav li.slide .menu:hover a,
@@ -238,7 +240,7 @@ footer a {
 }
 
 .main .main-left .sidenav-header .brand {
-    font-family: -apple-system, "Microsoft Yahei", "WenQuanYi Micro Hei", "sans-serif";
+    font-family: "Microsoft Yahei",-apple-system,  "WenQuanYi Micro Hei", "sans-serif";
     color: #ccc;
 }
 
@@ -247,28 +249,18 @@ footer a {
 .main .main-right #maincontent .container>div:nth-child(1).alert-message.warning>a {
     color: #ccc;
 }
-
-
-select {
-    width: 90%;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    padding: 0 22px 0 10px;
-    background-size: 24px 16px;
-    background-repeat: no-repeat;
-    background-position: right center;
-    overflow: hidden !important;
-    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABGCAYAAAA6hjFpAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDcuMS1jMDAwIDc5LmRhYmFjYmIsIDIwMjEvMDQvMTQtMDA6Mzk6NDQgICAgICAgICI+IDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+IDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIiB4bWxuczpzdFJlZj0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291cmNlUmVmIyIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjhDNzA0QUE0NjE2QTExRUNCMjJFQkQyRkIyNURDNjE3IiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjhDNzA0QUEzNjE2QTExRUNCMjJFQkQyRkIyNURDNjE3IiB4bXA6Q3JlYXRvclRvb2w9IkFkb2JlIFBob3Rvc2hvcCAyMi41IChNYWNpbnRvc2gpIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6QzNBNTYzNTY2MTUxMTFFQ0IyMkVCRDJGQjI1REM2MTciIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6QzNBNTYzNTc2MTUxMTFFQ0IyMkVCRDJGQjI1REM2MTciLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz6YjzxlAAACsklEQVR42uyaXUsVURSG51T0U/obfUvhhYF0U0HQhZQVIWVJCAkiSUXfRRcaBFbXQVBBRCASFCJBpQQipw+RREkpCa9aG95gs0DMOp6Z7TwvvAxnzczaa6/nzDnzVTndfSVDxdE6WgAQBBCAIIAABAEEIAggAEEAQQABCAIIQBBAAIIAAhAEEAQQgCCAAAStGSAbzA/N+wvSiwPmB6or16bkoY2afLN5r+q4l2MfDpr7zetV2z7zYpmOkAHByNSE0IxDOdUSxr2rOjLVNVC2n6z77hsYmtFnbqlzHS0aN+7DouorFZBH+ibGUCrmO+YjdaqhVeNVHIxm1Ve6P/XH5ibzLwfllvn4Ko8d8t90MEIde1RXaU97n6oJCw7KNXPbKo3ZpvwxjAXV8YTrkCx7piPFQ7lsbq/xWO3K62E0qQ4uDKXn5kbzTxe/YO6o0Rgdypc5GI0anyt1p5fm3eYfLn7e3PmfuTuVJ1YYZ5fG5Up9CQ2qSfMu3m3u+secXdo/1rzGGeTWyfIaUrPmXPycuWeFuXq0X6w55R8q4NwLe3PxlXmn+buLnzX3/mWOXm0fK+RrUP4MICvTG/MO86yLnzFfWmbfi9ou1qzyvS7wnAt/+31YTZxx8ZPmq+709c/pcoifcvEZ5Rku+HyTeB4yYt5unnbxE+YbEZSwvK54rGntP5LAXJN5QPXWvNX8zcWPmm9rHmF5zK0P22/T/hlAaqv35i3mKRc/bB7VMtaUIL5LaI7JPcIdVZMnXXyT+zyp7T4kNr8kn6mPqdlfllj/VevHEpxbsi85fNTP1ycX/2zerPUZQOqrcUGp6nNVMMYTnlPyrwFNCMILLScSn0++r7zUSFVdZ6wJ8aIcQBBAAIIAAhAEEIAggAAEAQQBBCAIIABBAAEIAghAEEAQQJLQbwEGAK/reX2gh5gQAAAAAElFTkSuQmCC');
-
+.main .main-left .nav>li>a:first-child, 
+.main .main-left .nav li.slide .menu::before,
+.main .main-left .nav>li>a:first-child::before,
+.main .main-left .nav .slide .menu::before {
+    color: #bbb 
 }
+
 
 select,
 input {
-    color: #bbb;
-    font-family: "Google Sans", "Microsoft Yahei", "WenQuanYi Micro Hei", "sans-serif", "Helvetica Neue", "Helvetica", "Hiragino Sans GB";
-    border: 1px solid rgba(255,255,255,0.25);
-    background-color:rgba(255,255,255,0.1);
+    font-family: "Microsoft Yahei", "WenQuanYi Micro Hei", "sans-serif", "Helvetica Neue", "Helvetica", "Hiragino Sans GB";
+
 }
 
 input[type="checkbox"] {
@@ -296,25 +288,31 @@ input:checked[type="checkbox"]:before {
     background-position: center
 }
 
-select:not([multiple="multiple"]):focus,
-input:focus {
+
+select:not([multiple="multiple"]):focus, input:not(.cbi-button):focus, .cbi-dropdown:focus {
+
     background-color: rgba(255,255,255,0.18);
      box-shadow: 0 0.5rem 1rem rgba(255,255,255, 0.35);
     -webkit-box-shadow: 0 0 6px rgba(255,255,255, 0.35);
     -moz-box-shadow: 0 0 6px rgba(255,255,255, 0.35);
 }
 
-.btn,
-button,
-.cbi-button,
-.item::after {
-    box-shadow: 0 0.5rem 1rem rgba(255, 255, 255, 0.15); 
+.btn, button, select, input, .cbi-dropdown,.item::after {
+    color: #8391a2;
+    border: 1px solid rgba(255,255,255,0.12)!important;
+    box-shadow: 0 0.5rem 1rem rgba(255, 255, 255, 0.12)!important; 
+
+}
+.btn, .cbi-button, .item::after {
+    color: #d0d7de;
 }
 
 .cbi-input-textarea,
 textarea {
     color: #8391a2;
-    border: 1px solid rgba(255,255,255,0.3);
+    background-color: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.12)!important;
+    box-shadow: 0 0.5rem 1rem rgba(255, 255, 255, 0.12)!important; 
 }
 
 
@@ -398,35 +396,24 @@ table>thead>tr>th,
     color: #8391a2
 }
 
-.cbi-tabcontainer>.cbi-value:nth-of-type(4n+2),
-.cbi-map>.cbi-section .cbi-value:nth-of-type(4n+2),
-fieldset>table>tbody>tr:nth-of-type(4n+2),
-table>tbody>tr:nth-of-type(4n+2),
-div>.table>.tr:nth-of-type(4n+2) {
-    background-image: none !important;
-}
-.cbi-tabcontainer>.cbi-value:nth-of-type(4n),
-.cbi-map>.cbi-section .cbi-value:nth-of-type(4n),
-fieldset>table>tbody>tr:nth-of-type(4n),
-table>tbody>tr:nth-of-type(4n),
-div>.table>.tr:nth-of-type(4n) {
-    background-image: none !important;
+.cbi-tabcontainer>.cbi-value:nth-of-type(4n+2):hover,.cbi-map>.cbi-section .cbi-value:nth-of-type(4n+2):hover,fieldset>table>tbody>tr:nth-of-type(4n+2):hover,table>tbody>tr:nth-of-type(4n+2):hover,div>.table>.tr:nth-of-type(4n+2):hover {
+    background-color: rgba(250,250,250,0.05);
 }
 
-.cbi-tabcontainer>.cbi-value:nth-of-type(4n+2):hover, 
-.cbi-map>.cbi-section .cbi-value:nth-of-type(4n+2):hover, 
-fieldset>table>tbody>tr:nth-of-type(4n+2):hover, 
-table>tbody>tr:nth-of-type(4n+2):hover, 
-div>.table>.tr:nth-of-type(4n+2):hover {
-    background-image: none !important
+.cbi-tabcontainer>.cbi-value:nth-of-type(2n+1):hover,.cbi-map>.cbi-section .cbi-value:nth-of-type(2n+1):hover,fieldset>table>tbody>tr:nth-of-type(2n+1):hover,table>tbody>tr:nth-of-type(2n+1):hover,div>.table>.tr:nth-of-type(2n+1):hover {
+    background-color: rgba(250,250,250,0.05);
 }
 
-.cbi-tabcontainer>.cbi-value:nth-of-type(4n):hover, 
-.cbi-map>.cbi-section .cbi-value:nth-of-type(4n):hover,
-fieldset>table>tbody>tr:nth-of-type(4n):hover,
-table>tbody>tr:nth-of-type(4n):hover,
-div>.table>.tr:nth-of-type(4n):hover {
-    background-image: none !important
+.cbi-tabcontainer>.cbi-value:nth-of-type(4n):hover,.cbi-map>.cbi-section .cbi-value:nth-of-type(4n):hover,fieldset>table>tbody>tr:nth-of-type(4n):hover,table>tbody>tr:nth-of-type(4n):hover,div>.table>.tr:nth-of-type(4n):hover {
+    background-color: rgba(250,250,250,0.05);
+}
+
+
+.cbi-rowstyle-2 .cbi-button-up, .cbi-rowstyle-2 .cbi-button-down, body:not(.Interfaces) .cbi-rowstyle-2:first-child {
+	background-color: rgba(0,0,0,0, 0.2) !important;
+}
+.cbi-rowstyle-1 .cbi-button-up, .cbi-rowstyle-1 .cbi-button-down, body:not(.Interfaces) .cbi-rowstyle-1:first-child {
+	background-color: rgba(0,0,0,0, 0.1) !important;
 }
 
 .status-bar {
@@ -564,7 +551,6 @@ h3 {
 }
 
 
-
 .cbi-dropdown>.open {
     background: #333
 }
@@ -580,13 +566,8 @@ h3 {
 
 
 .cbi-dropdown[open]>ul.dropdown>li[selected] {
-    background-color: #8391a2
-}
-
-
-
-.cbi-dropdown {
-    color: #8391a2;
+    background-color: #8391a2;
+    color: #fff;
 }
 
 .cbi-value-title {
@@ -604,16 +585,30 @@ h3 {
     color: #8391a2;
 }
 
-
+#content_syslog{
+    box-shadow: 0 0 1px rgba(255, 255, 255,  0.12);
+}
 #syslog {
     color: #8391a2;
-    font-family: -apple-system, "Microsoft Yahei", "WenQuanYi Micro Hei", "sans-serif";
-    border: 1px solid rgba(255,255,255,0.3);
-    background-color: rgba(255,255,255,0.1);
+    font-family: "Microsoft Yahei",-apple-system,  "WenQuanYi Micro Hei", "sans-serif";
+    background-color: rgba(0,0,0,0.1);
 }
-
-
-
+.request>.requestBody,
+.response .markdown-body,
+.markdown-body {
+color: #8391a2!important;
+background-color: rgba(255,255,255,0)!important;
+}
+.bottom_wrapper .message_input_wrapper .message_input_text{
+    background-color: rgba(255,255,255,0.35)!important;
+    color: #d0d7de!important;
+}
+#chatlog .response .markdown-body>pre {
+background-color: rgba(0,0,0,0.15)!important;
+}
+#chatlog .response {
+    background-color: rgba(255,255,255,0.03)!important;
+}
 .ifacebox-head {
     color: #8391a2
 }
@@ -708,12 +703,6 @@ h3 {
 
 .cbi-section em {
     color: #8391a2;
-}
-#content_syslog {
-    color: #8391a2;
-    font-family: -apple-system, "Microsoft Yahei", "WenQuanYi Micro Hei", "sans-serif";
-    border: 1px solid rgba(255,255,255,0.3);
-    background-color: rgba(255,255,255,0.1);
 }
 
 
