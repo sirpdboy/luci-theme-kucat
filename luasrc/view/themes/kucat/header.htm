@@ -211,7 +211,7 @@
     local user = "admin" 
     local setbar = "1"
 	local bgqs = '1'
-    local showword = ""
+    local showword = "" 
     local ssr = "" 
     local gohome = bar .. "status/"  ..home
     local gouser = bar .. "system/"  ..user
@@ -331,18 +331,19 @@ function downIcibaword()
 			 check = 0 
         end
     end
-    if check == 1 or not fs.access('/www/luci-static/kucat/img/showword') then
-    io.popen("echo  $(curl -kLfsm 5 'https://zhouxiaoben.info/iciba/dsapi' | awk -F 'note\":\"' '{print $2}' | awk -F '\"' '{print $1}') >/www/luci-static/kucat/img/showword ")
+    if check == 1 or not fs.access('/tmp/showword.tmp') then
+    io.popen("echo  $(curl -kLfsm 5 'https://zhouxiaoben.info/iciba/dsapi' | awk -F 'note\":\"' '{print $2}' | awk -F '\"' '{print $1}') >/tmp/showword.tmp ")
         sys.exec("date +%Y%m%d  > /tmp/kucaticibaword.tmp")
     end
-    if fs.access('/www/luci-static/kucat/img/showword') then
-        showword = sys.exec("cat /www/luci-static/kucat/img/showword")
-    end
-	if showword  == '' then 
-			 showword = sys.exec("cat /etc/luci-static/kucat/img/pdshowword")
+    if fs.access('/tmp/showword.tmp') then
+        localtime = sys.exec("cat /tmp/showword.tmp")
+        if localtime ~= '' then 
+			 showword = localtime
+		else
+		     showword = sys.exec("cat /www/luci-static/kucat/img/logoword")
+        end
     end
 end
-
 function downbirdUrl()
     local check = 1
     if fs.access('/tmp/kucatbird.tmp') then
