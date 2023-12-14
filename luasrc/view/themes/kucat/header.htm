@@ -58,9 +58,10 @@
 	local mode = 'light'
     local home = "overview" 
     local user = "admin" 
-    local showword = ""
-    local ssr = "" 
     local setbar = "1"
+	local bgqs = "1"
+    local showword = ""
+    local ssr = ""
     local gohome = bar .. "status/"  ..home
     local gouser = bar .. "system/"  ..user
     local gossr = bar .. "services/"  ..ssr
@@ -68,7 +69,6 @@
 	local fontd = '1.2rem' 
 	local fontz = '0.92rem' 
 	local fontx = '0.875rem'
-	local bgqs = '1'
 	local primary_rgbbody = '248,248,248'
 	local primary_rgbm = '45,102,147'
 	local primary_rgbm_ts = '0.8'
@@ -180,14 +180,20 @@ function downIcibaword()
 			 check = 0 
         end
     end
-    if check == 1 or not fs.access('/www/luci-static/kucat/img/showword') then
-    io.popen("echo  $(curl -kLfsm 5 'https://zhouxiaoben.info/iciba/dsapi' | awk -F 'note\":\"' '{print $2}' | awk -F '\"' '{print $1}') >/www/luci-static/kucat/img/showword ")
+    if check == 1 or not fs.access('/tmp/showword.tmp') then
+    io.popen("echo  $(curl -kLfsm 5 'https://zhouxiaoben.info/iciba/dsapi' | awk -F 'note\":\"' '{print $2}' | awk -F '\"' '{print $1}') >/tmp/showword.tmp ")
         sys.exec("date +%Y%m%d  > /tmp/kucaticibaword.tmp")
     end
-    if fs.access('/www/luci-static/kucat/img/showword') then
-        showword = sys.exec("cat /www/luci-static/kucat/img/showword")
+    if fs.access('/tmp/showword.tmp') then
+        localtime = sys.exec("cat /tmp/showword.tmp")
+        if localtime ~= '' then 
+			 showword = localtime
+		else
+		     showword = sys.exec("cat /www/luci-static/kucat/img/logoword")
+        end
     end
 end
+
 function downbirdUrl()
     local check = 1
     if fs.access('/tmp/kucatbird.tmp') then
