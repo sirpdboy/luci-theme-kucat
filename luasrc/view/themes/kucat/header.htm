@@ -59,8 +59,9 @@
     local home = "overview" 
     local user = "admin" 
     local setbar = "1"
-	local bgqs = "1"
-    local showword = ""
+	local bgqs = '1'
+    local showword = sys.exec("cat /www/luci-static/kucat/img/logoword")
+    local showurl = sys.exec("cat /www/luci-static/kucat/img/logourl")
     local ssr = ""
     local gohome = bar .. "status/"  ..home
     local gouser = bar .. "system/"  ..user
@@ -73,7 +74,7 @@
 	local primary_rgbm = '45,102,147'
 	local primary_rgbm_ts = '0.8'
 	local primary_rgbs = '132,188,218'
-	local primary_rgbs_ts = '0.2'
+	local primary_rgbs_ts = '0.1'
 	local primary_opacity = '0'
 	local bkuse = '1'
 	local bklock = '1'
@@ -181,18 +182,22 @@ function downIcibaword()
         end
     end
     if check == 1 or not fs.access('/tmp/showword.tmp') then
-    io.popen("echo  $(curl -kLfsm 5 'https://zhouxiaoben.info/iciba/dsapi' | awk -F 'note\":\"' '{print $2}' | awk -F '\"' '{print $1}') >/tmp/showword.tmp ")
-        sys.exec("date +%Y%m%d  > /tmp/kucaticibaword.tmp")
+	
+	   local localword = sys.exec("a=`curl -kLfsm 5 https://v1.hitokoto.cn | awk -F 'hitokoto\":\"' '{print $2}'| awk -F '\"' '{print $1}' ` && printf $a ")
+	  if localword  ~= '' then
+	      sys.exec("a=`curl -kLfsm 5 https://v1.hitokoto.cn | awk -F 'hitokoto\":\"' '{print $2}'| awk -F '\"' '{print $1}' ` && echo -e $a >/tmp/showword.tmp")
+          sys.exec("date +%Y%m%d  > /tmp/kucaticibaword.tmp")
+	  end
     end
+
     if fs.access('/tmp/showword.tmp') then
-        localtime = sys.exec("cat /tmp/showword.tmp")
-        if localtime ~= '' then 
-			 showword = localtime
-		else
-		     showword = sys.exec("cat /www/luci-static/kucat/img/logoword")
+        localword = sys.exec("a=`cat /tmp/showword.tmp` && printf $a ")
+        if localword ~= '' then 
+			 showword = localword
         end
     end
 end
+
 
 function downbirdUrl()
     local check = 1
@@ -248,8 +253,6 @@ elseif  ( background == "2" )  then
 elseif background == "3" then
 		    pcall(downbingUrl)
 elseif background == "4" then
-		    pcall(downIcibaUrl)
-elseif background == "5" then
 		    pcall(downbirdUrl)
 end
 pcall(downIcibaword)
@@ -409,7 +412,7 @@ end
 							<a class="showSide"  title="<%:Menu%>" ></a>
 							<a class="brand" href="#"><%=striptags(boardinfo.hostname or "OpenWrt")%></a>
 						</div>
-						<a class="showWord" href="https://www.github.com/sirpdboy/openwrt"><%=showword%></a>
+						<a class="showWord" href="<%=showurl%>"><%=showword%></a>
 						<div class="status" id="indicators"></div>
 
                         <span > <a class="pdboy-qlogout" href="<%=url("admin/logout")%>" title="<%:Logout%>" > </a></span>

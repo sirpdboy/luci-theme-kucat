@@ -10,8 +10,8 @@ LUCI_TITLE:=Kucat Theme by sirpdboy
 THEME_NAME:=kucat
 PKG_NAME:=luci-theme-$(THEME_NAME)
 LUCI_DEPENDS:= +curl
-PKG_VERSION:=2.3.6
-PKG_RELEASE:=20231214
+PKG_VERSION:=2.3.8
+PKG_RELEASE:=20231217
 
 include $(TOPDIR)/feeds/luci/luci.mk
 # call BuildPackage - OpenWrt buildroot signature
