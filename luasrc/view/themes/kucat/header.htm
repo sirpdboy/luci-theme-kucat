@@ -211,7 +211,8 @@
     local user = "admin" 
     local setbar = "1"
 	local bgqs = '1'
-    local showword = "" 
+    local showword = sys.exec("cat /www/luci-static/kucat/img/logoword")
+    local showurl = sys.exec("cat /www/luci-static/kucat/img/logourl")
     local ssr = "" 
     local gohome = bar .. "status/"  ..home
     local gouser = bar .. "system/"  ..user
@@ -224,7 +225,7 @@
 	local primary_rgbm = '45,102,147'
 	local primary_rgbm_ts = '0.8'
 	local primary_rgbs = '132,188,218'
-	local primary_rgbs_ts = '0.2'
+	local primary_rgbs_ts = '0.1'
 	local primary_opacity = '0'
 	local bkuse = '1'
 	local bklock = '1'
@@ -315,8 +316,10 @@ function downIcibaUrl()
 			 check = 0 
         end
     end
+	
+
     if check == 1 or not fs.access('/www/luci-static/kucat/img/down4.jpg') then
-io.popen("curl -kLfsm 3 -o /www/luci-static/kucat/img/down4.jpg  $(curl -kLfsm 5 'https://zhouxiaoben.info/iciba/dsapi' | awk -F 'picture4\":\"' '{print $2}' | awk -F '\"' '{print $1}') ")
+io.popen("curl -kLfsm 3 -o /www/luci-static/kucat/img/down4.jpg  $(curl -kLfsm 5 \"http://sentence.iciba.com/index.php?c=dailysentence&m=getdetail&title=$(date +%Y-%m-%d)\" |  awk -F 'picture2\":\"' '{print $2}' | awk -F '\"' '{print $1}' | sed 's#\\##g') ")
         sys.exec("date +%Y%m%d  > /tmp/kucaticiba.tmp")
     end
     if fs.access('/www/luci-static/kucat/img/down4.jpg') then
@@ -332,18 +335,22 @@ function downIcibaword()
         end
     end
     if check == 1 or not fs.access('/tmp/showword.tmp') then
-    io.popen("echo  $(curl -kLfsm 5 'https://zhouxiaoben.info/iciba/dsapi' | awk -F 'note\":\"' '{print $2}' | awk -F '\"' '{print $1}') >/tmp/showword.tmp ")
-        sys.exec("date +%Y%m%d  > /tmp/kucaticibaword.tmp")
+	
+	   local localword = sys.exec("a=`curl -kLfsm 5 https://v1.hitokoto.cn | awk -F 'hitokoto\":\"' '{print $2}'| awk -F '\"' '{print $1}' ` && printf $a ")
+	  if localword  ~= '' then
+	      sys.exec("a=`curl -kLfsm 5 https://v1.hitokoto.cn | awk -F 'hitokoto\":\"' '{print $2}'| awk -F '\"' '{print $1}' ` && echo -e $a >/tmp/showword.tmp")
+          sys.exec("date +%Y%m%d  > /tmp/kucaticibaword.tmp")
+	  end
     end
+
     if fs.access('/tmp/showword.tmp') then
-        localtime = sys.exec("cat /tmp/showword.tmp")
-        if localtime ~= '' then 
-			 showword = localtime
-		else
-		     showword = sys.exec("cat /www/luci-static/kucat/img/logoword")
+        localword = sys.exec("a=`cat /tmp/showword.tmp` && printf $a ")
+        if localword ~= '' then 
+			 showword = localword
         end
     end
 end
+
 function downbirdUrl()
     local check = 1
     if fs.access('/tmp/kucatbird.tmp') then
@@ -398,8 +405,6 @@ elseif  ( background == "2" )  then
 elseif background == "3" then
 		    pcall(downbingUrl)
 elseif background == "4" then
-		    pcall(downIcibaUrl)
-elseif background == "5" then
 		    pcall(downbirdUrl)
 end
 pcall(downIcibaword)
@@ -565,23 +570,23 @@ end
         <% render_topmenu() %>
     </div>
 	<div class="main-right">
-            <header class="bg-primary">
-                <div class="fill">
-                    <div class="container">
-                        <a class="showSide"></a>
-                        <a class="brand" href="#"><%=boardinfo.hostname or "?"%></a>
-						<a class="showWord" href="https://www.github.com/sirpdboy/openwrt"><%=showword%></a>
-                        <div class="pull-right">
-						
+	            <header class="pd-primary">
+    	        <div class="fill">
+	        	    <div class="container">
+						<div class="flex1">
+							<a class="showSide"  title="<%:Menu%>" ></a>
+							<a class="brand" href="#"><%=striptags(boardinfo.hostname or "OpenWrt")%></a>
+						</div>
+						<a class="showWord" href="<%=showurl%>"><%=showword%></a>
                             <% render_changes() %>
                             <span id="xhr_poll_status" style="display:none" onclick="XHR.running() ? XHR.halt() : XHR.run()">
                                 <a  class="pdboy-status_on" id="xhr_poll_status_on"  title="Disable Refresh"></a>
                                 <a  class="pdboy-status_off" id="xhr_poll_status_off" style="display:none"  title="Enable Refresh"></a>
                             </span>
-                           <span  title="Logout"> <a class="pdboy-qlogout" href="<%=url("admin/logout")%>"></a></span>
-                        </div>
-                    </div>
-                </div>
+
+                        <span > <a class="pdboy-qlogout" href="<%=url("admin/logout")%>" title="<%:Logout%>" > </a></span>
+                	</div>
+               </div>
             </header>
 		<div class="darkMask"></div>
 		<div class="login-bg" style="background-image:url(<%=bg_url%>)"></div>
