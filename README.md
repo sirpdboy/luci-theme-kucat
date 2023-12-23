@@ -10,18 +10,19 @@
 - main 支持LEDE18.06和官方18.06分支  开源时间：2023年4月   版本：1.2.6
 - JS 支持官网19.07-23.05分支 开源时间：2023年9月   版本：2.0.12
 
-## 目前最新版本，仅VIP固件中集成，开源升级时间在6个月以后。感谢大家支持与理解。
-
 # 功能介绍
 
-- 以酷为美，因动而生。
-- 带7种快捷键的工具栏。
-- 基本BUG，适应目前已经所有插件.
+- 以酷为美，因动而生.
+- 带5种快捷键的导航栏.
+- 适应目前18.06到23.05的所有版本，对大多数插件等进行适配优化.
 - 针对手机等做了大量优化.
 - 有配套的主题设置工具，可调节快捷键、背景图片、颜色多种方案可供选择。
+- 集成亮色和暗色模式。
 
 #【说在前面的话】此次酷猫主题研发借鉴:Opentopd主题、Jerryk大神argon主题、以及thinktip大神的neobird主题的部分灵感及参考借用部分代码，在这里表示感谢，感谢有你们珠玉在前！
 #目前源码暂不开源，如果你们需要联系本人可以免费获取。
+
+## 目前最新版本，仅VIP固件中集成，开源升级时间在6个月以后。感谢大家支持与理解。
 
 # 为什么叫酷猫 ？ 
 
@@ -46,15 +47,17 @@
 
 ## 界面
 
-![screenshots](https://raw.githubusercontent.com/sirpdboy/openwrt/master/doc/kucat1.jpg)
+![screenshots](https://raw.githubusercontent.com/sirpdboy/openwrt/master/doc/kucat1.png)
 
-![screenshots](https://raw.githubusercontent.com/sirpdboy/openwrt/master/doc/kucat2.jpg)
+![screenshots](https://raw.githubusercontent.com/sirpdboy/openwrt/master/doc/kucat2.png)
 
-![screenshots](https://raw.githubusercontent.com/sirpdboy/openwrt/master/doc/kucat3.jpg)
+![screenshots](https://raw.githubusercontent.com/sirpdboy/openwrt/master/doc/kucat3.png)
 
-![screenshots](https://raw.githubusercontent.com/sirpdboy/openwrt/master/doc/kucat4.jpg)
+![screenshots](https://raw.githubusercontent.com/sirpdboy/openwrt/master/doc/kucat4.png)
 
 ![screenshots](https://raw.githubusercontent.com/sirpdboy/openwrt/master/doc/kucat5.jpg)
+
+![screenshots](https://raw.githubusercontent.com/sirpdboy/openwrt/master/doc/kucat6.jpg)
 
 
 ## 使用与授权相关说明
