@@ -881,14 +881,16 @@ select,input {
 
 }
 
-.btn,button,.cbi-button,.item::after {
+.btn, button, .cbi-button, .item::after {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
     border: none;
     text-transform: uppercase;
     height: auto;
-    color: #f8f8f8;
-    background-color: #008b89;
     display: inline-block;
-    padding: 0.7rem 1rem;
+    padding: 0.6rem 1rem!important;
     margin-left: 0.2rem;
     cursor: pointer;
     -ms-touch-action: manipulation;
@@ -899,12 +901,14 @@ select,input {
     font-size: var(--font-z);
     width: auto;
     font-weight: 500;
+    color: #f8f8f8;
+    background-color: #008b89;
     background-image: var(--bgqs-image);
-    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+    box-shadow: 0 0.3rem 0.8rem rgba(0,0,0,0.22);
     transform: translate(1) translate(0,0);
     transition: transform 225ms,box-shadow 225ms;
     border-radius: 0.25rem;
-    line-height: 1em
+    line-height: 1;
 }
 
 
@@ -1299,7 +1303,6 @@ td>table>tbody>tr>td,.td>.table>.tbody>.tr>.td {
 
 .cbi-page-actions {
     border-top: 0 solid #eee;
-    padding: 0rem 0rem 3rem 0;
     text-align: center;
     -webkit-box-align: center;
     -ms-flex-align: center;
@@ -1398,21 +1401,27 @@ body.lang_pl.node-main-login .cbi-value-title {
     -webkit-filter: blur(5px);
     filter: blur(5px)
 }
-
+.node-main-login > .main .cbi-map {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
 .node-main-login>.main .container .cbi-section-node .cbi-value {
     padding: 0rem;
     background-image: none !important;
-    margin-bottom: 1rem
 }
 
 .node-main-login>.main .container .cbi-section-node .cbi-value:hover {
     background-image: none !important
 }
-
+.node-main-login>.main .cbi-section {
+    margin-bottom: 1rem;
+}
 .node-main-login>.main fieldset,.node-main-login>.main .cbi-section,.node-main-login>.main .cbi-section>.cbi-section-node {
     padding: 0rem;
-    padding-top: 0rem;
-    margin-bottom: 1rem;
     background: none;
     border: none;
     box-shadow: none;
@@ -1430,11 +1439,13 @@ body.lang_pl.node-main-login .cbi-value-title {
     align-items: center;
     -webkit-box-pack: center;
     -ms-flex-pack: center;
+    align-content: center;
+    flex-wrap: nowrap;
+    flex-direction: column;
     justify-content: center;
-    flex-direction: column
 }
 
-.node-main-login>.main .container {
+.node-main-login>.main>.main-right #maincontent .container {
     display: inline-block;
     position: relative;
     text-align: center;
@@ -1451,10 +1462,13 @@ body.lang_pl.node-main-login .cbi-value-title {
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
+    padding: 1rem 1rem 4rem 1rem;
     user-select: none;
     font-weight: bolder;
-    overflow-x: auto
+    overflow-x: hidden;
+    overflow-y: hidden;
 }
+
 
 .node-main-login>.main .container:active {
     -webkit-transform: scale(0.95) rotateZ(1.2deg);
@@ -1463,19 +1477,20 @@ body.lang_pl.node-main-login .cbi-value-title {
 }
 
 .node-main-login>.main .container h2 {
-    width: 80px;
-    height: 80px;
-    background-size: 80px;
-    display: block;
-    margin: 1rem 3.5rem 5em 5.5rem;
-    text-indent: -500px;
-    overflow: hidden;
-    background-image: url(../logo.png);
-    background-color: rgba(250,250,250,0);
-    background-repeat: no-repeat;
-    background-position: 0;
-    border-top: 0rem
+	width: 80px;
+	height: 80px;
+	background-size: 80px;
+	display: block;
+    margin: 1rem 1rem 2rem 1rem;
+	text-indent: -500px;
+	overflow: hidden;
+	background-image: url(../logo.png);
+	background-color: rgba(250,250,250,0);
+	background-repeat: no-repeat;
+	background-position: 0;
+	border-top: 0rem;
 }
+
 
 .node-main-login>.main .container .cbi-section-node {
     padding: 0.2rem;
@@ -1492,16 +1507,13 @@ body.lang_pl.node-main-login .cbi-value-title {
 
 .node-main-login>.main .container input.cbi-button {
     font-size: var(--font-z);
-    height: auto;
     position: relative;
     transition: all .15s ease;
     letter-spacing: .2em;
     text-transform: none;
-    padding: .625rem 1.25rem;
     will-change: transform;
-    line-height: 1.5em;
     border-radius: 0.25rem;
-    min-width: 16rem
+    min-width: 14rem
 }
 
 .node-main-login>header.bar-primary .container-bar-left,.node-main-login>header.bar-primary .container-bar-right,.node-main-login>.main .cbi-button-reset {
@@ -1509,7 +1521,6 @@ body.lang_pl.node-main-login .cbi-value-title {
 }
 
 .node-main-login>.main .cbi-value {
-    margin-bottom: 10px;
     border: none;
     display: block
 }
@@ -1530,36 +1541,36 @@ body.lang_pl.node-main-login .cbi-value-title {
     padding-left: 3em;
     margin: 0
 }
-
 .node-main-login>.main .container .cbi-map-descr {
-    display: none
+	display: none;
 }
+.node-main-login>.main .cbi-value.cbi-value .cbi-value-field .cbi-input-text, .node-main-login>.main .cbi-value.cbi-value .cbi-input-user, .node-main-login>.main .cbi-value.cbi-value-last .cbi-input-password, .node-main-login>.main .cbi-value.cbi-value-last .cbi-input-text[type="password"] {
 
-.node-main-login>.main .cbi-value.cbi-value .cbi-value-field .cbi-input-text,.node-main-login>.main .cbi-value.cbi-value .cbi-input-user,.node-main-login>.main .cbi-value.cbi-value-last .cbi-input-password,.node-main-login>.main .cbi-value.cbi-value-last .cbi-input-text[type="password"] {
-    
-    box-shadow: none;
-    border-radius: 0.25rem;
-    padding: 0;
-    color: #fff;
-    text-shadow: 0px 2px 4px #222;
-    background-image: none;
-    text-align: center;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
-    justify-content: center;
-    text-indent: 0rem;
-    min-width: 100% !important;
-    margin: 0
+	box-shadow: none;
+	border-radius: .375rem;
+	padding: 0;
+	color: #fff;
+	text-shadow: 0px 2px 4px #222;
+	background-image: none;
+	text-align: center;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	align-items: center;
+	-webkit-box-pack: center;
+	-ms-flex-pack: center;
+	justify-content: center;
+	text-indent: 0rem;
+    background-color: rgba(255,255,255,0.3);
+	width: 14rem;
+	min-width: 100% !important;
+	margin: 0
 }
-
-.node-main-login>.main .cbi-value.cbi-value .cbi-value-field,.node-main-login>.main .cbi-value.cbi-value-last .cbi-value-field {
+.node-main-login>.main .cbi-value.cbi-value .cbi-value-field, .node-main-login>.main .cbi-value.cbi-value-last .cbi-value-field {
     position: relative;
     color: #eee;
+    margin-bottom: 2rem;
     text-shadow: 0px 1px 3px #222;
-    width: 16rem
+    width: 14rem;
 }
 
 .node-main-login>.main .cbi-value.cbi-value .cbi-value-field:before {
@@ -1575,11 +1586,11 @@ body.lang_pl.node-main-login .cbi-value-title {
     content: "\e91d";
     color: #eee;
     text-shadow: 0px 1px 3px #222;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     position: absolute;
     z-index: 100;
     left: 10px;
-    top: 8px
+    top: 10px
 }
 
 .node-main-login>.main .cbi-value.cbi-value-last .cbi-value-field:before {
@@ -1595,11 +1606,11 @@ body.lang_pl.node-main-login .cbi-value-title {
     content: "\e93c";
     color: #eee;
     text-shadow: 0px 1px 3px #222;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     position: absolute;
     z-index: 100;
     left: 10px;
-    top: 8px
+    top: 10px
 }
 
 .node-main-login>.main .cbi-value.cbi-value-last,.node-main-login>.main .cbi-value {
@@ -1607,13 +1618,11 @@ body.lang_pl.node-main-login .cbi-value-title {
     position: relative;
     padding: 0rem;
     background-image: none !important;
-    margin-bottom: 1rem;
     border-bottom: 0px solid #222 !important;
     background-color: rgba(255,255,255,0)
 }
 
 .node-main-login>.main .cbi-value.cbi-value-last {
-    margin-top: 2rem;
     background-color: rgba(255,255,255,0) !important
 }
 
@@ -1641,7 +1650,7 @@ body.lang_pl.node-main-login .cbi-value-title {
 
 .node-main-login footer {
     text-align: center;
-    padding: 1rem 1rem 6rem 0;
+    margin-top: 4rem;
     color: #eee;
     text-shadow: 0 0 2px #222;
     font-size: var(--font-x);
@@ -1921,7 +1930,7 @@ fieldset[id^="cbi-apply-"] {
 
 table>tbody>tr>td,table>tbody>tr>th,table>tfoot>tr>td,table>tfoot>tr>th,table>thead>tr>td,table>thead>tr>th,.table>.tbody>.tr>.td,.table>.tbody>.tr>.th,.table>.tfoot>.tr>.td,.table>.tfoot>.tr>.th,.table>.thead>.tr>.td,.table>.thead>.tr>.th {
     font-size: var(--font-x);
-    padding: 1.2rem 1.5rem;
+    padding: 1rem 1.5rem;
     letter-spacing: 1px;
     color: var(--body-color)
 }
@@ -1959,7 +1968,9 @@ table>tbody>tr>td,table>tbody>tr>th,table>tfoot>tr>td,table>tfoot>tr>th,table>th
 .cbi-section-table-row>.cbi-value-field [data-dynlist]>input,.cbi-section-table-row>.cbi-value-field input.cbi-input-password {
     width: calc(100% - 1.5rem)
 }
-
+.cbi-section-table-row>.cbi-value-field>strong {
+   font-weight: normal!important
+}
 
 .cbi-section-table tr .cbi-value-field {
     text-align: center;
@@ -1993,7 +2004,14 @@ table>tbody>tr>td,table>tbody>tr>th,table>tfoot>tr>td,table>tfoot>tr>th,table>th
 
 table>tbody>tr,div>.table>.tr,.cbi-map>.cbi-section .cbi-value {
     transition: background-color .15s;
-    line-height: 1.6em;
+    line-height: 1em;
+}
+
+.cbi-rowstyle-2 .cbi-button-up, .cbi-rowstyle-2 .cbi-button-down, body:not(.Interfaces) .cbi-rowstyle-2:first-child {
+	background-color: rgba(var(--primary-rgbm), 0.5) !important;
+}
+.cbi-rowstyle-1 .cbi-button-up, .cbi-rowstyle-1 .cbi-button-down, body:not(.Interfaces) .cbi-rowstyle-1:first-child {
+	background-color: rgba(var(--primary-rgbs), 0.5) !important;
 }
 
 .success {
@@ -2545,11 +2563,12 @@ select[multiple="multiple"] {
     align-items: flex-start;
     align-content: flex-start;
     justify-content: flex-start;
-    min-height: 40px;
     padding: 0.2rem 0.8rem;
     flex-flow: row wrap;
 }
-
+.cbi-value.cbi-value-last {
+    padding: 0 0.8rem;
+}
 
 .cbi-value:last-child {
     border-bottom: none !important
@@ -2558,28 +2577,20 @@ select[multiple="multiple"] {
   display:none;
 }
 .cbi-section-table-descr>.cbi-section-table-cell,.cbi-section-table-titles>.cbi-section-table-cell {
-    border: none
+    border: none;
+    padding: 0 0.8rem;
 }
 
 .cbi-section-table .cbi-section-table-titles .cbi-section-table-cell {
     width: auto !important
 }
 
-.cbi-section-descr {
-    padding: 1rem 1.5rem;
-    font-size: var(--font-x);
-    font-weight: 600;
-    line-height: 1.5em;
-    color: var(--body-color)
-}
-
-.cbi-map-descr {
+.cbi-map-descr, .cbi-section-descr {
+    font-size: small;
+    line-height: 1.42857143;
     margin: 0 1.5rem 1rem 1.5rem;
     color: var(--body-color);
-    font-size: small;
-    line-height: 1.5em
 }
-
 .cbi-value-field .ifacebadge {
     display: inline-flex;
     border-bottom: 0 solid #CCCCCC;
@@ -2932,7 +2943,6 @@ input[name="ping"],input[name="traceroute"],input[name="nslookup"] {
     overflow-x: auto;
     border: 0px solid rgba(0,0,0,0);
     box-shadow: 0px 1px 0px rgba(0,0,0,0.12);
-    margin-bottom: 2rem;
     overflow-y: hidden
 }
 
@@ -2953,18 +2963,18 @@ input[name="ping"],input[name="traceroute"],input[name="nslookup"] {
     border: 1px solid var(--inputborder-color);
 }
 
-#syslog ,
-#content_syslog {
-	width: 100%;
-	min-height: 15rem;
-	font-family: var(--font-apple);
-	color: var(--body-color);
-	background-color: var(--inputbg-color);
-	font-size: small;
-	outline: none;
-	border-radius: 0.25rem;
-	overflow: hidden
+#syslog {
+    width: 100%;
+    min-height: 15rem;
+    font-family: var(--font-apple);
+    color: var(--body-color);
+    background-color: var(--inputbg-color);
+    font-size: small;
+    outline: none;
+    border-radius: 0.25rem;
+    overflow-x: hidden;
 }
+
 #syslog:focus{
 	outline: 0;
         box-shadow: 0 0 1px rgba(0,0,0,0.12)!important;
@@ -3231,6 +3241,12 @@ img[src*="/luci-static/resources/cbi/reload.gif"] {
     .node-network-network .cbi-section-table br {
         display: initial
     }
+.Overview .main fieldset>table>tbody>tr>td:nth-child(1)
+{
+    width: 8rem;
+   text-align: center;
+   padding-right: 0.6rem;
+}
 }
 
 @media screen and (max-width: 992px) {
@@ -3404,7 +3420,11 @@ img[src*="/luci-static/resources/cbi/reload.gif"] {
         width: 2.3rem !important;
         height: auto
     }
-
+.Overview .main fieldset>table>tbody>tr>td:nth-child(1)
+{
+    width: 5rem;
+    padding-right: 0.1rem;
+}
     img[src*="/luci-static/resources/cbi/add.gif"] {
         right: 35px;
         display: block;
@@ -3531,6 +3551,10 @@ img[src*="/luci-static/resources/cbi/reload.gif"] {
         display: table;
         padding: 0px;
         border-bottom: none
+    }
+
+    .node-main-login>.main .cbi-section {
+      margin-bottom: 0;
     }
 
     .cbi-page-actions {
