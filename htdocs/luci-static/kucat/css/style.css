@@ -1,8 +1,7 @@
 /*
  *  KuCat is a clean HTML5 theme for LuCI. It is based on luci-theme-kucat
  *
- *  kucat
- *  Copyright 2019-2023 sirpdboy-kucat <sirpdboy@qq.com>
+ *  Copyright (C) 2019-2023 The Sirpdboy Team <herboy2008@gmail.com>    
  *      Copyright 2015 Lutty Yang <lutty@wcan.in>
  *
  *  Licensed to the public under the Apache License 2.0
@@ -240,6 +239,7 @@ select, input {
 select {
     overflow: hidden !important;
     width: 100%;
+    min-width: 8rem;
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -1099,6 +1099,14 @@ table .tr > .td.cbi-value-field, table .tr > .th.cbi-section-table-cell {
 	color: var(--body-color);
 	white-space: nowrap;
 }
+.cbi-section-table-row .td {
+	text-align: center;
+}
+
+table .tr > .td.cbi-value-field>[id*="ifc-description"] {
+   text-align: left ;
+   font-weight: normal!important
+}
 table>tbody>tr:first-child>td, table>tfoot>tr:first-child>td, table>thead>tr:first-child>td {
 	border-top: 0px solid #eee
 }
@@ -1116,6 +1124,9 @@ table>tbody>tr:first-child>td, table>tfoot>tr:first-child>td, table>thead>tr:fir
 }
  [data-page="admin-network-diagnostics"] .tr > .td {
     white-space: normal;
+ }
+[data-page="admin-network-diagnostics"] .cbi-dropdown > ul{
+    overflow-y: hidden;
  }
 .table[width="100%"] > .tr:first-child > .td {
 	margin: auto 0;
@@ -1141,8 +1152,9 @@ table>tbody>tr:first-child>td, table>tfoot>tr:first-child>td, table>thead>tr:fir
     -ms-user-select: none;
     user-select: none;
     text-transform: uppercase;
+        line-height: 1;
     display: inline-block;
-    padding: 0.6rem 1rem!important;
+    padding: 0.6rem 1rem;
     -ms-touch-action: manipulation;
     touch-action: manipulation;
     vertical-align: middle;
@@ -1152,7 +1164,7 @@ table>tbody>tr:first-child>td, table>tfoot>tr:first-child>td, table>thead>tr:fir
     color: #f8f8f8;
     background-color: #008b89;
     background-image: var(--bgqs-image);
-    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+    box-shadow: 0 0.3rem 0.8rem rgba(0,0,0,0.22);
     transform: translate(1) translate(0,0);
     transition: transform 225ms,box-shadow 225ms;
     border-radius: 0.25rem;
@@ -1164,6 +1176,7 @@ table>tbody>tr:first-child>td, table>tfoot>tr:first-child>td, table>thead>tr:fir
 .cbi-value-field .cbi-dropdown, .cbi-value-field .cbi-input-select, .cbi-value input[type="text"], .cbi-value input[type="password"] {
 	min-width: 8rem;
 	width: 18rem;
+	padding: 0 10px 0 10px;
 }
 .cbi-section-table-row > .cbi-value-field .cbi-dropdown, .cbi-section-table-row > .cbi-value-field .cbi-input-select, .cbi-section-table-row > .cbi-value-field .cbi-input-text, .cbi-section-table-row > .cbi-value-field .cbi-input-password {
 	width: 8rem;
@@ -1171,9 +1184,7 @@ table>tbody>tr:first-child>td, table>tfoot>tr:first-child>td, table>thead>tr:fir
 .cbi-section-table-row > .cbi-value-field [data-dynlist] > input, .cbi-section-table-row > .cbi-value-field input.cbi-input-password {
 	width: calc(100% - 1.5rem);
 }
-.cbi-section-table-row .td {
-	text-align: center !important;
-}
+
 .cbi-tabcontainer>.cbi-value:nth-of-type(4n+2), .cbi-map>.cbi-section .cbi-value:nth-of-type(4n+2), fieldset>table>tbody>tr:nth-of-type(4n+2), table>tbody>tr:nth-of-type(4n+2), div>.table>.tr:nth-of-type(4n+2) {
 	background-color: rgba(var(--primary-rgbm), var(--primary-rgbs-ts));
 	background-image: var(--bgqs-image);
@@ -1287,9 +1298,9 @@ button:hover, .btn:hover, .cbi-button:hover ,.item:hover{
 }
 /* gray */
 .alert-message [class="btn"], .modal div[class="btn"], .cbi-button-find, .cbi-button-link, .cbi-button-neutral, .cbi-button[name="zero"], .cbi-button[name="restart"], .cbi-button[onclick="hide_empty(this)"] {
-	font-weight: bold;
-	border: thin solid #a99108;
-	background-color: #dbb91c;
+    font-weight: bold;
+    border: thin solid #1b4f0e;
+    background-color: #25770b;
 }
 /* dark blue */
 .btn.primary, .cbi-page-actions .cbi-button-save, .cbi-page-actions .cbi-button-apply + .cbi-button-save, .cbi-button-add, .cbi-button-save, .cbi-button-positive, .cbi-button-link, .cbi-button[value="Enable"], .cbi-button[value="Scan"], .cbi-button[value^="Back"], .cbi-button-neutral[onclick="handleConfig(event)"] {
@@ -1304,6 +1315,9 @@ button:hover, .btn:hover, .cbi-button:hover ,.item:hover{
 	border: thin solid rgba(var(--primary-rgbm), 1);
 	background-color: rgba(var(--primary-rgbm), 0.9);
 }
+
+
+
 /* red */
 .btn.danger, .cbi-section-remove > .cbi-button, .cbi-button-remove, .cbi-button-reset, .cbi-button-negative, .cbi-button[value="Stop"], .cbi-button[value="Kill"], .cbi-button[onclick="reboot(this)"], .cbi-button-neutral[value="Restart"] {
 	font-weight: normal;
@@ -1444,11 +1458,12 @@ button:hover, .btn:hover, .cbi-button:hover ,.item:hover{
 .cbi-value {
     display: inline-block;
     width: 100%;
-
     padding: 0.2rem 0.8rem;
     line-height: 2.4rem;
 }
-
+.cbi-value.cbi-value-last {
+    padding: 0 0.8rem;
+}
 .cbi-value:first-child {
     padding-top: 1rem;
 }
@@ -1548,25 +1563,27 @@ button:hover, .btn:hover, .cbi-button:hover ,.item:hover{
 	max-width: none;
 }
 .cbi-dynlist>.item::after {
-	content: "\00D7";
-	pointer-events: auto;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	width: 2.5rem !important;
-	margin: 0;
-	font-weight: normal;
-	font-size: 1.2rem;
-	line-height: 1.5rem;
-	color: #f8f8f8;
-	border: 1px solid var(--inputborder-color);
-	border-radius: 0.25rem;
-	outline: 0;
-	background-color: #d9534f;
-	background-image: none;
-	box-shadow: none;
-	box-sizing: border-box;
+    background-image: none;
+    box-shadow: none;
+    content: "\00D7";
+    pointer-events: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    font-weight: bold;
+    font-size: 1.5rem;
+    line-height: 1;
+    width: 2.5rem !important;
+    padding: 5px!important;
+    color: #f8f8f8;
+    border: 0px solid var(--inputborder-color);
+    border-radius: 0.25rem;
+    outline: 0;
+    background-color: #d9534f;
+    box-sizing: border-box;
 }
+
 .cbi-dynlist > .item > span {
 	display: block;
 	padding: 0.5rem 0.75rem;
@@ -1618,7 +1635,7 @@ button:hover, .btn:hover, .cbi-button:hover ,.item:hover{
 	white-space: nowrap;
 	word-break: break-word;
 	line-height: 1.5rem;
-	border-radius: 0.25rem;
+	border-radius: 0.25rem 0 0 0.25rem;
 	border-right-width: 0;
 	outline: 0;
 }
@@ -1634,8 +1651,8 @@ button:hover, .btn:hover, .cbi-button:hover ,.item:hover{
 }
 .cbi-dynlist>.add-item .cbi-button-add {
     width: 2.5rem !important;
-    padding: 7px!important;
-    /* font-weight: normal; */
+    padding: 5px!important;
+    font-weight: bold;
     font-size: 1.5rem;
     line-height: 1;
     margin: 5px 5px 5px 0;
@@ -1647,7 +1664,7 @@ button:hover, .btn:hover, .cbi-button:hover ,.item:hover{
 .cbi-dynlist, .cbi-dropdown {
 	position: relative;
 	display: inline-flex;
-    line-height: 2rem;
+    line-height: 1;
 }
 .cbi-dropdown[placeholder*="select"] {
 	max-width: 25rem;
@@ -1683,8 +1700,8 @@ button:hover, .btn:hover, .cbi-button:hover ,.item:hover{
     font-size: var(--font-z);
 }
 .cbi-dropdown.btn > .open {
-	padding: 0px;
-	margin: 0 0 0 0.25rem;
+	padding: 0.5rem;
+	margin: 0;
 }
 .cbi-dropdown.btn > div {
 	margin: 0px;
@@ -1702,7 +1719,7 @@ button:hover, .btn:hover, .cbi-button:hover ,.item:hover{
 	align-self: center;
 	flex-grow: 1;
 	flex-shrink: 1;
-    min-height: 20px;
+    min-height: 30px;
     padding: 0 10px 0 10px;
 	white-space: nowrap;
 	text-overflow: ellipsis;
@@ -1744,15 +1761,20 @@ button:hover, .btn:hover, .cbi-button:hover ,.item:hover{
 	min-width: 100%;
 	max-width: none;
 	max-height: 160px !important;
-	border: 1px solid var(--inputborder-color);
+	border: 0px solid var(--inputborder-color);
 	background-color: rgba(var(--primary-rgbbody), 1);
 	box-shadow: 0 0 4px #918e8c;
 	color: var(--inputtext-color);
 }
+
 .cbi-dropdown > ul > li[display], .cbi-dropdown[open] > ul.preview, .cbi-dropdown[open] > ul.dropdown > li, .cbi-dropdown[multiple] > ul > li > label, .cbi-dropdown[multiple][open] > ul.dropdown > li, .cbi-dropdown[multiple][more] > .more, .cbi-dropdown[multiple][empty] > .more {
 	display: flex;
 	align-items: center;
+        padding: 0 10px 0 10px;
 	flex-grow: 1;
+}
+.cbi-dropdown > ul > li[display], .cbi-dropdown[open] > ul.preview {
+        padding: 0px;
 }
 .cbi-dropdown[empty] > ul > li, .cbi-dropdown[optional][open] > ul.dropdown > li[placeholder], .cbi-dropdown[multiple][open] > ul.dropdown > li > form {
 	display: block;
@@ -1760,13 +1782,15 @@ button:hover, .btn:hover, .cbi-button:hover ,.item:hover{
 .cbi-dropdown[open] > ul.dropdown > li .hide-open {
 	display: none;
 }
+
 .cbi-dropdown[open] > ul.dropdown > li .hide-close {
 	display: initial;
 }
 .cbi-dropdown[open] > ul.dropdown > li[selected] {
-	background-color: var(--inputbg-color);
-	box-shadow: 0 0 6px rgba(0, 0, 0, 0.22);
+    background-color: rgba(0, 0, 0, 0.12);
+    margin-bottom: 1px;
     padding-left: 0.5rem;
+
 }
 .cbi-dropdown[open] > ul.dropdown > li.focus {
 	background: linear-gradient(90deg, #3867075e 0%, #84aad9 100%);
@@ -1857,9 +1881,11 @@ button:hover, .btn:hover, .cbi-button:hover ,.item:hover{
 .modal .cbi-section{
     overflow: visible;
 }
+/*
 .modal .right>.btn {
 	padding: 0 0.8rem
 }
+*/
 .modal .right>.primary {
 	padding: .3rem .6rem;
 }
@@ -1925,15 +1951,24 @@ button:hover, .btn:hover, .cbi-button:hover ,.item:hover{
 .modal .label.warning {
 	background-color: #f0ad4e !important;
 }
-[data-page="admin-system-flash"] .modal .btn {
+
+[data-page="admin-system-flash"] .modal>p>.btn {
     white-space: normal !important;
     font-size: var(--font-x);
     margin: 0;
-    line-height: 2rem;
+    line-height: 1;
+    color: var(--inputtext-color);
+    padding: 0.3rem 1rem;
     text-align: left;
-    height: auto;
 }
 
+[data-page="admin-system-flash"] .modal>.right,[data-page="admin-system-flash"] .modal>.right::before {
+margin: 3rem 5px 0 5px;
+}
+
+[data-page="admin-system-flash"] .modal>.right>.btn  {
+color: #f8f8f8;
+}
 .modal.cbi-modal {
 	max-width: 90%;
 	max-height: none;
@@ -1977,7 +2012,7 @@ body.modal-overlay-active #modal_overlay {
 	margin-left: 5px;
 }
 .right .cbi-button {
-	line-height: 20px;
+	line-height: 1;
 	margin: 0;
 }
 .right, .right::before {
@@ -2292,12 +2327,12 @@ div.cbi-value var, td.cbi-value-field var, .td.cbi-value-field var {
 	flex-direction: column;
 }
 label > input[type="checkbox"], label > input[type="radio"] {
-
     margin-right: 0.8rem;
     position: relative;
-    margin-top: 0.5rem;
-    vertical-align: bottom;
+    margin-bottom: 0.8rem;
+    vertical-align: -webkit-baseline-middle;
 }
+
 label[data-index][data-depends] {
 	padding-right: 2em;
 }
@@ -2347,7 +2382,7 @@ input[name="ping"], input[name="traceroute"], input[name="nslookup"] {
 	display: none;
 }
 .node-main-login  > .main .cbi-page-actions{
-	padding: 1rem 0 2rem 0;
+	padding: 1rem 0 1rem 0;
 }
 .node-main-login  > .main .cbi-map {
     display: flex;
@@ -2423,7 +2458,6 @@ body.lang_pl.node-main-login .cbi-value-title {
 .node-main-login>.main fieldset, .node-main-login>.main .cbi-section, .node-main-login>.main .cbi-section>.cbi-section-node {
 	padding: 0rem;
 	padding-top: 0rem;
-	margin-bottom: 1rem;
 	background: none;
 	border: none;
 	box-shadow: none;
@@ -2432,37 +2466,44 @@ body.lang_pl.node-main-login .cbi-value-title {
 	overflow: hidden
 }
 .node-main-login>.main #maincontent {
-	text-align: center;
-	-webkit-box-align: center;
-	-ms-flex-align: center;
-	display: flex;
-	height: 100%;
-	align-items: center;
-	-webkit-box-pack: center;
-	-ms-flex-pack: center;
-	flex-direction: column;
+    text-align: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    display: flex;
+    height: auto;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    align-content: center;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    justify-content: center;
 }
-.node-main-login>.main .container {
-	display: inline-block;
-	position: relative;
-	text-align: center;
-	margin: 0;
-	border-radius: 0.25rem;
-	-webkit-backdrop-filter: blur(6px)!important;
-	backdrop-filter: blur(6px)!important;
-	background-color: rgba(var(--primary-rgbbody), 0.5)!important;
-	border: none;
-	-webkit-box-shadow: 3px 7px 12px rgba(0, 0, 0, 0.22);
-	box-shadow: 3px 7px 12px rgba(0, 0, 0, 0.22);
-	-webkit-transition: all 0.2s;
-	transition: all 0.1s;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-	font-weight: bolder;
-	overflow-x: auto
+
+.node-main-login>.main>.main-right #maincontent .container {
+    display: inline-block;
+    position: relative;
+    text-align: center;
+    margin: 0;
+    border-radius: 10px;
+    -webkit-backdrop-filter: blur(6px)!important;
+    backdrop-filter: blur(6px)!important;
+    background-color: rgba(var(--primary-rgbbody),0.5)!important;
+    border: none;
+    -webkit-box-shadow: 3px 7px 12px rgba(0,0,0,0.22);
+    box-shadow: 3px 7px 12px rgba(0,0,0,0.22);
+    -webkit-transition: all 0.2s;
+    transition: all 0.2s;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    padding: 1rem 1rem 3rem 1rem;
+    user-select: none;
+    font-weight: bolder;
+    overflow-x: hidden;
+    overflow-y: hidden;
 }
+
 .node-main-login>.main .container:active {
 	-webkit-transform: scale(0.95) rotateZ(1.2deg);
 	-ms-transform: scale(0.95) rotate(1.2deg);
@@ -2473,7 +2514,7 @@ body.lang_pl.node-main-login .cbi-value-title {
 	height: 80px;
 	background-size: 80px;
 	display: block;
-    margin: 1rem 1rem 5em 1rem;
+    margin: 1rem 1rem 3rem 1rem;
 	text-indent: -500px;
 	overflow: hidden;
 	background-image: url(../logo.png);
@@ -2495,16 +2536,13 @@ body.lang_pl.node-main-login .cbi-value-title {
 }
 .node-main-login>.main .container input.cbi-button {
 	font-size: var(--font-z);
-	height: auto;
 	position: relative;
 	transition: all .15s ease;
 	letter-spacing: .2em;
 	text-transform: none;
-	padding: .625rem 1.25rem;
 	will-change: transform;
-	line-height: 1.5em;
 	border-radius: .375rem;
-	min-width: 16rem
+	min-width: 14rem
 }
 .node-main-login>.bar-primary .container-bar-left, .node-main-login>.bar-primary .container-bar-right, .node-main-login>.main .cbi-button-reset {
 	display: none !important
@@ -2537,7 +2575,7 @@ body.lang_pl.node-main-login .cbi-value-title {
 	justify-content: center;
 	text-indent: 0rem;
     background-color: rgba(255,255,255,0.3);
-	width: 16rem;
+	width: 14rem;
 	min-width: 100% !important;
 	margin: 0
 }
@@ -2545,7 +2583,7 @@ body.lang_pl.node-main-login .cbi-value-title {
 	position: relative;
 	color: #eee;
 	text-shadow: 0px 1px 3px #222;
-	width: 16rem
+	width: 14rem
 }
 .node-main-login>.main .cbi-value.cbi-value .cbi-value-field:before {
 	font-family: 'sirpdboy-kucat' !important;
@@ -2560,11 +2598,11 @@ body.lang_pl.node-main-login .cbi-value-title {
 	content: "\e91d";
 	color: #eee;
 	text-shadow: 0px 1px 3px #222;
-	font-size: 1.5rem;
+	font-size: 1.3rem;
 	position: absolute;
 	z-index: 100;
 	left: 10px;
-	top: 8px
+	top: 10px
 }
 .node-main-login>.main .cbi-value.cbi-value-last .cbi-value-field:before {
 	font-family: 'sirpdboy-kucat' !important;
@@ -2579,11 +2617,11 @@ body.lang_pl.node-main-login .cbi-value-title {
 	content: "\e93c";
 	color: #eee;
 	text-shadow: 0px 1px 3px #222;
-	font-size: 1.5rem;
+	font-size: 1.3rem;
 	position: absolute;
 	z-index: 100;
 	left: 10px;
-	top: 8px
+	top: 10px
 }
 .node-main-login>.main .cbi-value.cbi-value-last, .node-main-login>.main .cbi-value {
 	display: block;
@@ -2619,7 +2657,7 @@ body.lang_pl.node-main-login .cbi-value-title {
 }
 .node-main-login footer {
 	text-align: center;
-	padding: 1rem 1rem 6rem 0;
+	margin-top: 4rem;
 	color: #eee;
 	text-shadow: 0 0 2px #222;
 	font-size: var(--font-x);
@@ -2658,6 +2696,7 @@ body.lang_pl.node-main-login .cbi-value-title {
 	margin-bottom: .2rem;
 }
 .control-group {
+    /*display: flex; */
     flex-wrap: wrap;
     white-space: normal;
     gap: 0px;
@@ -2667,7 +2706,7 @@ body.lang_pl.node-main-login .cbi-value-title {
     margin: 0.2rem 0 0.2rem 0;
 }
 .node-admin-system-opkg .control-group {
-   display: inline-flex;
+   display: block
 }
 [data-page="admin-system-opkg"] div.btn {
 	line-height: 3;
@@ -2710,11 +2749,7 @@ body.lang_pl.node-main-login .cbi-value-title {
 #iptables {
 	margin: 0;
 }
-.Firewall form {
-	margin: 2rem 2rem 0 0;
-	padding: 0;
-	box-shadow: none;
-}
+
 #cbi-firewall-redirect table *, #cbi-network-switch_vlan table *, #cbi-firewall-zone table * {
 	font-size: small;
 	white-space: nowrap;
@@ -2854,11 +2889,17 @@ body.lang_pl.node-main-login .cbi-value-title {
 	border: 0px solid #000!important;
 }
 /* fix  */
-.cbi-dropdown.btn.cbi-button.cbi-button-apply.important, .cbi-dropdown.btn.cbi-button.cbi-button-negative.important {
-	padding-left: 14px;
+
+.cbi-page-actions.control-group .cbi-dropdown.btn.cbi-button.important {
+        padding: 0.6rem 0rem 0.6rem 1rem;
+}
+
+.cbi-page-actions.control-group .cbi-dropdown.btn.cbi-button.cbi-button-negative.important > ul,
+.cbi-page-actions.control-group .cbi-dropdown.btn.cbi-button.cbi-button-apply.important > ul {
+overflow-y: hidden;
 }
 .cbi-dropdown.btn.cbi-button.cbi-button-action {
-	padding-left: 5px;
+	padding-right: 5px;
 }
 .node-admin-system-ttyd-ttyd iframe {
 	border-radius: 0.25rem !important;
@@ -2875,19 +2916,18 @@ body.lang_pl.node-main-login .cbi-value-title {
 #syslog {
     border: 1px solid var(--inputborder-color);
 }
-
-#syslog ,
-#content_syslog {
-	width: 100%;
-	min-height: 15rem;
-	font-family: var(--font-apple);
-	color: var(--body-color);
-	background-color: var(--inputbg-color);
-	font-size: small;
-	outline: none;
-	border-radius: 0.25rem;
-	overflow: hidden
+#syslog {
+    width: 100%;
+    min-height: 15rem;
+    font-family: var(--font-apple);
+    color: var(--body-color);
+    background-color: var(--inputbg-color);
+    font-size: small;
+    outline: none;
+    border-radius: 0.25rem;
+    overflow-x: hidden;
 }
+
 #syslog:focus{
 	outline: 0;
         box-shadow: 0 0 1px rgba(0,0,0,0.12)!important;
@@ -3012,46 +3052,8 @@ background-color: rgba(255,255,255,0.12)!important;
 	width: 100%!important;
 	box-shadow: 0 0 1px rgba(0, 0, 0,  0.12)!important;
 }
-.Software >.main #view td:nth-child(1), .node-admin-system-packages>.main #view td:nth-child(1) {
-	width: auto !important
-}
-.Software >.main #view td:nth-last-child(1), .node-admin-system-packages>.main #view td:nth-last-child(1) {
-	white-space: normal;
-	font-size: var(--font_x);
-	color: var(--body-color)
-}
-.Software >.main .cbi-tabmenu>li>a, .node-admin-system-packages>.main .cbi-tabmenu>li>a {
-	padding: .5rem .8rem;
-	font-size: var(--font-z);
-}
-.Software >.main .cbi-value>pre, .node-admin-system-packages>.main .cbi-value>pre {
-	background-color: #eee;
-	padding: .5rem;
-	overflow: auto
-}
 .node-admin-system-packages>.main .cbi-page-actions {
 	padding: 1rem 0
-}
-.Software >.main .cbi-value .cbi-value-field input[type="text"] {
-	width: 10rem!important;
-}
-.Software >.main .cbi-section-node:first-child .cbi-value-last, .node-admin-system-packages>.main .cbi-section-node:first-child .cbi-value-last {
-	line-height: 1.4em
-}
-.Software >.main .cbi-section-node:first-child .cbi-value-last>div, .node-admin-system-packages>.main .cbi-section-node:first-child .cbi-value-last>div {
-	width: 100% !important;
-	border-color: rgba(0, 0, 0, 0.3) !important;
-	background-color: rgba(0, 0, 0, 0.22) !important;
-	height: 1.4rem !important;
-	border-radius: 0.25rem !important;
-	margin: 0.5rem 0 !important;
-	overflow: hidden
-}
-.Software >.main .cbi-section-node:first-child .cbi-value-last>div>div, .node-admin-system-packages>.main .cbi-section-node:first-child .cbi-value-last>div>div {
-	border-right: 0 !important;
-	border-radius: 0.25rem !important;
-	background-color: rgba(var(--primary-rgbm), 0.9)!important;
-	background-image: var(--bgqs-image);
 }
 
 .node-admin-system-leds .cbi-section em {
@@ -3151,10 +3153,15 @@ background-color: rgba(255,255,255,0.12)!important;
 .node-admin-network-network .cbi-section-table br {
 	display: initial
 }
+.node-admin-status-overview  .main #view td:nth-child(1) {
+    width: 8rem;
+    padding-right: 0.6rem;
+}
 .cbi-value-title {
     width: 15rem;
     padding-right: 1rem;
 }
+
 }
 
 @media screen and (max-width: 992px) {
@@ -3202,6 +3209,12 @@ header .fill .container .flex1 .showSide {
 .node-main-login .showSide {
 	display: none !important
 }
+
+.node-admin-status-overview  .main #view td:nth-child(1) {
+    width: 6rem;
+    padding-right: 0.6rem;
+}
+
 .modal .cbi-value-title,
 .cbi-value-title {
     width: 12rem;
@@ -3211,9 +3224,7 @@ header .fill .container .flex1 .showSide {
 .Interfaces .table {
 	overflow-x: hidden;
 }
-
-
-.Overview .table[width="100%"] > .tr {
+.node-admin-status-overview .table[width="100%"] > .tr {
 	flex-wrap: nowrap;
 }
 .tr.placeholder {
@@ -3294,6 +3305,7 @@ table>tbody>tr>td, table>tfoot>tr>td, table>thead>tr>td {
 	width: 100%;
 	min-width: 16rem;
 }
+
 }
 
 @media screen and (max-width:600px) {
@@ -3323,10 +3335,16 @@ span[data-indicator="uci-changes"] {
 .hide-sm, .hide-xs:not([data-title="MAC-Address"]) {
 	display: none;
 }
+
+.node-admin-status-overview > .main #view td:nth-child(1),
 .cbi-value-title {
     text-align: left;
 }
 
+.node-admin-status-overview  .main #view td:nth-child(1) {
+    width: 5rem;
+    padding-right: 0.4rem;
+}
 
 .cbi-value-field, .cbi-value-description {
 	display: block !important;
@@ -3347,7 +3365,10 @@ span[data-indicator="uci-changes"] {
 #maincontent>.container {
 	padding: 1rem 0.5rem 3rem 0.5rem !important
 }
-
+.node-admin-status-overview  .main #view td:nth-child(1) {
+    width: 4rem;
+    padding-right: 0.2rem;
+}
 
 .cbi-section-node {
 	padding: 10px !important;

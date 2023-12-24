@@ -5,7 +5,7 @@
 "start_url":"/",
 "scope": "/",
 "orientation":"portrait",
-"prompt_message":"在主屏幕添加图标，以便快速访问 Kucat",
+"prompt_message":"fast read Kucat",
 "icons":[
 {
 "src":"img/logo16.png",

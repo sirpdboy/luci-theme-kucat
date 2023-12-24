@@ -1,10 +1,10 @@
  <%#
-    Copyright 2019-2023 sirpdboy <herboy2008@gmail.com>
+	Copyright (C) 2019-2023 The Sirpdboy Team <herboy2008@gmail.com>    
 	luci-theme-material: 
-	Copyright 2015-2017 Lutty Yang <lutty@wcan.in>
+	Copyright 2015 Lutty Yang <lutty@wcan.in>
 	luci-theme-bootstrap:
 	Copyright 2008 Steven Barth <steven@midlink.org>
-	Copyright 2008-2016 Jo-Philipp Wich <jow@openwrt.org>
+	Copyright 2008 Jo-Philipp Wich <jow@openwrt.org>
 	Copyright 2012 David Menting <david@nut-bolt.nl>
 
 	MUI:
@@ -14,11 +14,11 @@
 -%>
 
 <%
+	local ver = require "luci.version"
 	local sys  = require "luci.sys"
 	local util = require "luci.util"
 	local http = require "luci.http"
 	local disp = require "luci.dispatcher"
-	local ver  = require "luci.version"
 	local json 	= require "luci.jsonc"
 
 	local fs = require "nixio.fs"
@@ -49,7 +49,6 @@
 	if not fs.access("/www" .. resource .. "/background/") then
 	   local theme_dir = media .. "/background/"
 	end
-  	local remote_bg_url="http://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=3&mkt=en-US"
 	local bingUrl = "http://www.bing.com/"
 	local dark_css = fs.readfile('/www/luci-static/kucat/css/dark.css')
 	local bg_url = media.."/img/bg1.jpg"
@@ -76,8 +75,10 @@
 	local primary_rgbs = '132,188,218'
 	local primary_rgbs_ts = '0.1'
 	local primary_opacity = '0'
-	local bkuse = '1'
+	local bkuse = '0'
+	local bk_use='none'
 	local bklock = '1'
+	local dayword = '0'
 	if fs.access('/etc/config/advancedplus') then
 		primary_rgbbody = uci:get_first('advancedplus', 'basic', 'primary_rgbbody')
 		primary_rgbm = uci:get_first('advancedplus', 'basic', 'primary_rgbm')
@@ -100,25 +101,18 @@
 		fontz = uci:get_first('advancedplus', 'basic', 'font_z')
 		fontx = uci:get_first('advancedplus', 'basic', 'font_x')
 		bgqs = uci:get_first('advancedplus', 'basic', 'bgqs')
+		dayword = uci:get_first('advancedplus', 'basic', 'dayword')
 	end
 	local primary_ufilter =  "saturate(150%) contrast(50%) blur(" .. primary_opacity .. "px)"
 	if primary_opacity == '0' then
 	    primary_ufilter = 'none'
 	end
+	local bgqs_image = '-webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.2) 75%, transparent 75%, transparent)'
+	local bgqs_color = 'rgba(var(--primary-rgbm),var(--primary-rgbm-ts))'
 	if bgqs == '1' then
-	    bgqs_image = 'none !important'	
-		bgqs_color = 'rgba(var(--primary-rgbm),var(--primary-rgbm-ts))'
-	else
-	    bgqs_image = '-webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.2) 75%, transparent 75%, transparent)'
-		bgqs_color = 'rgba(var(--primary-rgbm),var(--primary-rgbm-ts))'
+	    bgqs_image = 'none'	
 	end
- 
-function getBing()
-    local bing = sys.exec("curl -s 'http://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=3&mkt=en-US'" )
-    if (bing and bing ~= '') then
-        bg_url = bingUrl .. json.parse(bing).images[1].url
-    end
-end
+
 function downunsplashUrl()
     local check = 1
     if fs.access('/tmp/kucatunsplash.tmp') then
@@ -157,22 +151,6 @@ function downbingUrl()
     end
 end
 
-function downIcibaUrl()
-    local check = 1
-    if fs.access('/tmp/kucaticiba.tmp') then
-        local localtime = sys.exec("cat /tmp/kucaticiba.tmp | grep `date +%Y%m%d`")
-        if localtime ~= '' then 
-			 check = 0 
-        end
-    end
-    if check == 1 or not fs.access('/www/luci-static/kucat/img/down4.jpg') then
-io.popen("curl -kLfsm 3 -o /www/luci-static/kucat/img/down4.jpg  $(curl -kLfsm 5 'https://zhouxiaoben.info/iciba/dsapi' | awk -F 'picture4\":\"' '{print $2}' | awk -F '\"' '{print $1}') ")
-        sys.exec("date +%Y%m%d  > /tmp/kucaticiba.tmp")
-    end
-    if fs.access('/www/luci-static/kucat/img/down4.jpg') then
-        bg_url = media .. "/img/down4.jpg"
-    end
-end
 function downIcibaword()
     local check = 1
     if fs.access('/tmp/kucaticibaword.tmp') then
@@ -246,8 +224,6 @@ if ( background == "0" ) then
 		    currentBg = bgs[math.random(1,bgcount)]
 		    bg_url = currentBg.url
 		end
-elseif  ( background == "1" )  then
-		    pcall(getBing)
 elseif  ( background == "2" )  then
 		    pcall(downunsplashUrl)
 elseif background == "3" then
@@ -255,7 +231,7 @@ elseif background == "3" then
 elseif background == "4" then
 		    pcall(downbirdUrl)
 end
-pcall(downIcibaword)
+
 if bklock == '1' then
 	bg_lock = bg_url
 else
@@ -282,7 +258,13 @@ else
 		    bg_lock = currentbk.url
 		end
 end
+if dayword == '1' then
+   pcall(downIcibaword)
+end
+if bkuse == '1'  then
+   bk_use="url("..bg_lock..")"
 %>
+
 <!DOCTYPE html>
 <html lang="<%=luci.i18n.context.lang%>">
 <head>
@@ -318,7 +300,6 @@ end
 	<% if mode == 'dark' then %>
 		<%=dark_css%>
 	<% end -%>
-	<% if  bkuse == '1'  then %>
 	:root {
 		--primary-rgbbody:<%=primary_rgbbody%>;
 		--primary-rgbm: <%=primary_rgbm%>;
@@ -329,26 +310,11 @@ end
 		--font-d: <%=fontd%>;
 		--font-z: <%=fontz%>;
 		--font-x: <%=fontx%>;
-		--theme-background: url(<%=bg_lock%>);
+		--theme-background: <%=bk_use%>;
 		--bgqs-image: <%=bgqs_image%>;
 		--bgqs-color: <%=bgqs_color%>;
 	}
-	<% else %>
-		:root {
-		--primary-rgbbody: <%=primary_rgbbody%>;
-		--primary-rgbm: <%=primary_rgbm%>;
-		--primary-rgbm-ts: 1;
-		--primary-rgbs: <%=primary_rgbs%>;
-		--primary-rgbs-ts: <%=primary_rgbs_ts%>;
-		--primary-ufilter: <%=primary_ufilter%>;
-		--font-d: <%=fontd%>;
-		--font-z: <%=fontz%>;
-		--font-x: <%=fontx%>;
-		--theme-background: none; 
-		--bgqs-image: <%=bg_image%>;
-		--bgqs-color: <%=bgqs_color%>;
-	}
-	<% end -%>
+
 	<% if setbar == "1" then %>
 	header.bar-primary .container-bar-left {
  	   width: 300px;
@@ -412,7 +378,9 @@ end
 							<a class="showSide"  title="<%:Menu%>" ></a>
 							<a class="brand" href="#"><%=striptags(boardinfo.hostname or "OpenWrt")%></a>
 						</div>
+						<% if dayword == '1' then %>
 						<a class="showWord" href="<%=showurl%>"><%=showword%></a>
+						<% end -%>
 						<div class="status" id="indicators"></div>
 
                         <span > <a class="pdboy-qlogout" href="<%=url("admin/logout")%>" title="<%:Logout%>" > </a></span>
@@ -430,9 +398,7 @@ end
 					<div class="alert-message warning">
 						<h4><%:No password set!%></h4>
 						<p><%:There is no password set on this router. Please configure a root password to protect the web interface.%></p>
-						<%- if disp.lookup("admin/system/admin") then -%>
 							<div class="right"><a class="btn" href="<%=url("admin/system/admin")%>"><%:Go to password configuration...%></a></div>
-						<%- end -%>
 					</div>
 				<%- end -%>
 				<noscript>

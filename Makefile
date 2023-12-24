@@ -1,17 +1,25 @@
 #
-# Copyright 2019-2023 sirpdboy 
+# Copyright (C) 2019-2023 The Sirpdboy Team <herboy2008@gmail.com>    
 #
 # This is free software, licensed under the Apache License, Version 2.0 .
 #
 
 include $(TOPDIR)/rules.mk
 
-LUCI_TITLE:=Kucat Theme by sirpdboy
-THEME_NAME:=kucat
-PKG_NAME:=luci-theme-$(THEME_NAME)
-LUCI_DEPENDS:= +curl
-PKG_VERSION:=2.3.8
-PKG_RELEASE:=20231217
+LUCI_TITLE:=Kucat Theme
+PKG_NAME:=luci-theme-kucat
+LUCI_DEPENDS:=
+PKG_VERSION:=2.3.9
 
-include $(TOPDIR)/feeds/luci/luci.mk
+define Package/luci-theme-kucat/postinst
+#!/bin/sh
+
+rm -Rf /var/luci-modulecache
+rm -Rf /var/luci-indexcache
+exit 0
+
+endef
+
+include ../../luci.mk
+
 # call BuildPackage - OpenWrt buildroot signature
