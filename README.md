@@ -54,9 +54,10 @@
 
 ![screenshots](https://raw.githubusercontent.com/sirpdboy/openwrt/master/doc/kucat4.png)
 
-![screenshots](https://raw.githubusercontent.com/sirpdboy/openwrt/master/doc/kucatset1.png)
+![screenshots](https://raw.githubusercontent.com/sirpdboy/openwrt/master/doc/kucat5.jpg)
 
-![screenshots](https://raw.githubusercontent.com/sirpdboy/openwrt/master/doc/kucatset2.png)
+![screenshots](https://raw.githubusercontent.com/sirpdboy/openwrt/master/doc/kucat6.jpg)
+
 
 
 ## 使用与授权相关说明
