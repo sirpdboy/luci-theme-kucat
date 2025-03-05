@@ -4,6 +4,7 @@
 
 # 酷猫主题链接： https://github.com/sirpdboy/luci-theme-kucat  
 # 进队设置-酷猫主题设置下载链接： [https://github.com/sirpdboy/luci-app-advancedplus](https://github.com/sirpdboy/luci-app-advancedplus/releases)
+# 酷猫主题设置工具 链接： [https://github.com/sirpdboy/luci-app-kucat-config](https://github.com/sirpdboy/luci-app-kucat-config)
 - 开发时间：2021年12月
 - 发布时间：2023年2月
 - 开源时间：2023年4月
