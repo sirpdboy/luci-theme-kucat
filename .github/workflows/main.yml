@@ -1,0 +1,47 @@
+name: Build
+
+on:
+  push:
+    tags:
+      - v*
+
+jobs:
+  build:
+    name: Build ${{ matrix.arch }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        arch:
+          - aarch64_generic
+          - i386_pentium-mmx
+          - loongarch64_generic
+          - mips_mips32
+          - mipsel_24kc
+          - mipsel_mips32
+          - x86_64
+    steps:
+      - uses: actions/checkout@main
+        with:
+          fetch-depth: 0
+      - name: Building packages
+        uses: sbwml/openwrt-gh-action-sdk@go1.24
+        env:
+          ARCH: ${{ matrix.arch }}-openwrt-24.10
+          FEEDNAME: packages_ci
+          PACKAGES: luci-theme-kucat
+          NO_REFRESH_CHECK: true
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.arch }}
+          path: bin/packages/${{ matrix.arch }}/packages_ci/*.ipk
+
+      - name: Upload packages
+        uses: ncipollo/release-action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          allowUpdates: true
+          replacesArtifacts: true
+          artifacts: "bin/packages/${{ matrix.arch }}/packages_ci/*.ipk"
