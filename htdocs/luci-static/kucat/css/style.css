@@ -2464,7 +2464,7 @@ input {
     width: 0;
     height: 100%;
     transition: width .25s ease-in;
-    background-color: rgba(var(--primary-rgbm), 0.8)
+    background-color: rgba(var(--primary-rgbm), 0.9)
 }
 
 .cbi-progressbar::after {
@@ -3507,11 +3507,11 @@ body.lang_pl.node-main-login .cbi-value-title {
     font-weight: normal;
     font-size: var(--font-x)
 }
-
+/*
 .node-main-login .alert-message.warning {
     display: none !important
 }
-
+*/
 .node-main-login .errorbox {
     width: calc(100% - 2rem);
     box-sizing: border-box;
