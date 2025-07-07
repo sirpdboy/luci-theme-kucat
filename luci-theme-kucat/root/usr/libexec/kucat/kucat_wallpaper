@@ -19,45 +19,89 @@ REBGURL="/luci-static/kucat/img/down${background}.jpg"
 DFBGURL="/luci-static/kucat/img/bg1.jpg"
 WRLOCK="/var/lock/kucat_lock_${background}.lock"
 
+# 获取可用的WAN接口
+get_available_wan_interfaces() {
+	# 获取所有活跃的网络接口
+	for iface in $(ip route | grep default | awk '{print $5}' | sort -u); do
+		if [ -n "$iface" ] && ip link show "$iface" 2>/dev/null | grep -q "state UP"; then
+			echo "$iface"
+		fi
+	done
+}
+
+# 测试URL可达性（支持多接口）
 test_url() {
-	url=$1
-	local status=$(/usr/bin/curl -I -o /dev/null -skL --connect-timeout 1 --retry 1 -w %{http_code} "$url")
-	case "$status" in
-		204|\
-		200)
-			echo '1'
-		;;
-	esac
+	local url=$1
+	local interfaces=$(get_available_wan_interfaces)
+	
+	# 如果没有找到接口，使用默认方式
+	if [ -z "$interfaces" ]; then
+		local status=$(curl -I -o /dev/null -skL --connect-timeout 3 --max-time 10 -w %{http_code} "$url" 2>/dev/null)
+		case "$status" in
+			204|200) echo '1' ;;
+		esac
+		return
+	fi
+	
+	# 尝试每个接口
+	for iface in $interfaces; do
+		local status=$(curl --interface "$iface" -I -o /dev/null -skL --connect-timeout 3 --max-time 10 -w %{http_code} "$url" 2>/dev/null)
+		case "$status" in
+			204|200)
+				echo '1'
+				return
+			;;
+		esac
+	done
+}
+
+# 使用可用接口进行curl请求
+curl_with_interface() {
+	local url="$1"
+	local extra_args="$2"
+	local interfaces=$(get_available_wan_interfaces)
+	
+	# 如果没有找到接口，使用默认方式
+	if [ -z "$interfaces" ]; then
+		curl -fks --connect-timeout 5 --max-time 15 $extra_args "$url" 2>/dev/null
+		return $?
+	fi
+	
+	# 尝试每个接口
+	for iface in $interfaces; do
+		local result=$(curl --interface "$iface" -fks --connect-timeout 5 --max-time 15 $extra_args "$url" 2>/dev/null)
+		if [ $? -eq 0 ] && [ -n "$result" ]; then
+			echo "$result"
+			return 0
+		fi
+	done
+	return 1
 }
 
 curl_bgurl() {
 	case "$background" in
 	1)
-		local ppath=`curl -s 'https://open.iciba.com/dsapi/' | jsonfilter -qe '@.picture4'`
+		local ppath=$(curl_with_interface 'https://open.iciba.com/dsapi/' | jsonfilter -qe '@.picture4')
 		[ -n "${ppath}" ] && echo "$ppath"
 		;;
 	2)
-		curl -fks --max-time 3 \
-		    --header "Authorization: Client-ID kmFIroj2ELqXJPtC0XUoyww-Tr_lDU8Ho8uxjptIrCo" \
-		   "https://api.unsplash.com/photos/random?count=1&orientation=landscape" |
-		   jsonfilter -e "@[0]['urls']['regular']"
+		local result=$(curl_with_interface "https://api.unsplash.com/photos/random?count=1&orientation=landscape" "--header 'Authorization: Client-ID kmFIroj2ELqXJPtC0XUoyww-Tr_lDU8Ho8uxjptIrCo'")
+		echo "$result" | jsonfilter -e "@[0]['urls']['regular']"
 		;;
 	3)
-		local ppath=`curl -s  "https://www.bing.com/HPImageArchive.aspx?format=js&n=1" |jsonfilter -qe '@.images[0].url'`
+		local ppath=$(curl_with_interface "https://www.bing.com/HPImageArchive.aspx?format=js&n=1" | jsonfilter -qe '@.images[0].url')
 		[ -n "${ppath}" ] && echo "https://www.bing.com${ppath}"
 		;;
 	4)
-		local i=`awk 'BEGIN{srand();print int(rand()*8)}'`
-		local j=`awk 'BEGIN{srand();print int(rand()*200)}'`
-		local ppath=`curl -s "http://wp.birdpaper.com.cn/intf/search?content=4k&pageno=$j&count=9" | awk -F '\"count\":9' '{print $2}' | awk -F ',\"processTime\"' '{print $1}' | sed 's#,#{#' |  jsonfilter -e "@.list[$i].url"`
+		local i=$(awk 'BEGIN{srand();print int(rand()*8)}')
+		local j=$(awk 'BEGIN{srand();print int(rand()*200)}')
+		local ppath=$(curl_with_interface "http://wp.birdpaper.com.cn/intf/search?content=4k&pageno=$j&count=9" | awk -F '\"count\":9' '{print $2}' | awk -F ',\"processTime\"' '{print $1}' | sed 's#,#{#' | jsonfilter -e "@.list[$i].url")
 		[ -n "${ppath}" ] && echo "$ppath"
 		;;
 	5)
-		curl -fks --max-time 3 \
-            "https://wallhaven.cc/api/v1/search?resolutions=1920x1080&sorting=random" |
-            jsonfilter -qe '@.data[0].path'
+		local result=$(curl_with_interface "https://wallhaven.cc/api/v1/search?resolutions=1920x1080&sorting=random")
+		echo "$result" | jsonfilter -qe '@.data[0].path'
 		;;
-
 	esac
 }
 
@@ -68,8 +112,24 @@ bgurl_down() {
 		local bgurl="$(curl_bgurl)"
 		if [ -n "$bgurl" ]; then
 			rm -rf $BGURL
-			curl -kLfsm 3 $bgurl -o $BGURL
-			date +%Y%m%d > $KUCATTMP
+			# 使用改进的下载方法
+			local interfaces=$(get_available_wan_interfaces)
+			local download_success=0
+			
+			if [ -z "$interfaces" ]; then
+				# 默认方式下载
+				curl -kLfs --connect-timeout 10 --max-time 30 "$bgurl" -o "$BGURL" && download_success=1
+			else
+				# 尝试每个接口下载
+				for iface in $interfaces; do
+					if curl --interface "$iface" -kLfs --connect-timeout 10 --max-time 30 "$bgurl" -o "$BGURL" 2>/dev/null; then
+						download_success=1
+						break
+					fi
+				done
+			fi
+			
+			[ $download_success -eq 1 ] && date +%Y%m%d > $KUCATTMP
 		fi
 
         flock -u 200 >/dev/null 2>&1
@@ -79,21 +139,37 @@ bgurl_down() {
 
 check_url() {
 	if [ -s $KUCATTMP ]; then
-		localtime=`cat $KUCATTMP | grep $(date +%Y%m%d) `
-		if [ $localtime ]; then
-		   if  [ -s $BGURL ] ; then
-	   	        echo -ne $REBGURL 
-                        return
-            fi
-            fi
-        fi
-# local checknet=$(test_url "https://www.baidu.com")
-checknet=`ping -c 1 -W 1 223.5.5.5 > /dev/null 2>&1 &&echo 1 || echo 2`
-if [ "x$checknet" == "x1" ]; then 
-	bgurl_down
-else
-	[ -s "$DFBGURL" ] && echo -ne $DFBGURL
-fi
+		localtime=$(cat $KUCATTMP | grep $(date +%Y%m%d))
+		if [ "$localtime" ]; then
+			if [ -s $BGURL ]; then
+				echo -ne $REBGURL
+				return
+			fi
+		fi
+	fi
+	
+	# 改进的网络检测：测试实际的HTTP连接
+	local checknet=$(test_url "https://www.baidu.com")
+	if [ "x$checknet" == "x1" ]; then
+		bgurl_down
+	else
+		# 备用检测：ping多个DNS服务器
+		local ping_success=0
+		for dns in "223.5.5.5" "8.8.8.8" "114.114.114.114"; do
+			if ping -c 1 -W 2 "$dns" >/dev/null 2>&1; then
+				ping_success=1
+				break
+			fi
+		done
+		
+		if [ $ping_success -eq 1 ]; then
+			# 网络可达但HTTP可能有问题，尝试下载
+			bgurl_down
+		else
+			# 完全无网络连接
+			echo -ne $DFBGURL
+		fi
+	fi
 }
 
 check_url

@@ -12,15 +12,62 @@ LANG=`uci get luci.main.lang`
 WORDDATETMP="/var/dayword_kucatword_date.tmp"
 LOCK="/var/lock/dayword_kucatword.lock"
 WORDTMP="/var/dayword_kucatword_$LANG.tmp"
+# 获取可用的WAN接口
+get_available_wan_interfaces() {
+	# 获取所有活跃的网络接口
+	for iface in $(ip route | grep default | awk '{print $5}' | sort -u); do
+		if [ -n "$iface" ] && ip link show "$iface" 2>/dev/null | grep -q "state UP"; then
+			echo "$iface"
+		fi
+	done
+}
+
+# 测试URL可达性（支持多接口）
 test_url() {
-	url=$1
-	status="$(/usr/bin/curl -I -o /dev/null -skL --connect-timeout 1 --retry 1 -w %{http_code} "$url")"
-	case "$status" in
-		204|\
-		200)
-			echo '1'
-		;;
-	esac
+	local url=$1
+	local interfaces=$(get_available_wan_interfaces)
+	
+	# 如果没有找到接口，使用默认方式
+	if [ -z "$interfaces" ]; then
+		local status=$(curl -I -o /dev/null -skL --connect-timeout 3 --max-time 10 -w %{http_code} "$url" 2>/dev/null)
+		case "$status" in
+			204|200) echo '1' ;;
+		esac
+		return
+	fi
+	
+	# 尝试每个接口
+	for iface in $interfaces; do
+		local status=$(curl --interface "$iface" -I -o /dev/null -skL --connect-timeout 3 --max-time 10 -w %{http_code} "$url" 2>/dev/null)
+		case "$status" in
+			204|200)
+				echo '1'
+				return
+			;;
+		esac
+	done
+}
+
+# 使用可用接口进行curl请求
+curl_with_interface() {
+	local url="$1"
+	local interfaces=$(get_available_wan_interfaces)
+	
+	# 如果没有找到接口，使用默认方式
+	if [ -z "$interfaces" ]; then
+		curl -s --connect-timeout 5 --max-time 15 "$url" 2>/dev/null
+		return $?
+	fi
+	
+	# 尝试每个接口
+	for iface in $interfaces; do
+		local result=$(curl --interface "$iface" -s --connect-timeout 5 --max-time 15 "$url" 2>/dev/null)
+		if [ $? -eq 0 ] && [ -n "$result" ]; then
+			echo "$result"
+			return 0
+		fi
+	done
+	return 1
 }
 
 get_word() {
@@ -29,39 +76,47 @@ get_word() {
 	dayword="$(uci -q get $kucat.@basic[0].dayword || echo '0')"
 	case "$dayword" in
 	1)
-		[ "X$LANG" == "Xen" ] && gwordjson=`curl -s 'https://open.iciba.com/dsapi/' | jsonfilter -qe '@.content'` ||  gwordjson=`curl -s 'https://open.iciba.com/dsapi/' | jsonfilter -qe '@.note'`
+		if [ "X$LANG" == "Xen" ]; then
+			gwordjson=$(curl_with_interface 'https://open.iciba.com/dsapi/' | jsonfilter -qe '@.content')
+		else
+			gwordjson=$(curl_with_interface 'https://open.iciba.com/dsapi/' | jsonfilter -qe '@.note')
+		fi
 		[ -n "${gwordjson}" ] && echo "$gwordjson"
 		;;
 	2)
 	# form iciba : https://api.vvhan.com/api/en
-		[ "X$LANG" == "Xen" ] && gwordjson=`curl -s 'https://api.vvhan.com/api/en?type=sj'| jsonfilter -qe '@.data.zh'` || gwordjson=`curl -s 'https://api.vvhan.com/api/en?type=sj'| jsonfilter -qe '@.data.en'` 
+		if [ "X$LANG" == "Xen" ]; then
+			gwordjson=$(curl_with_interface 'https://api.vvhan.com/api/en?type=sj' | jsonfilter -qe '@.data.zh')
+		else
+			gwordjson=$(curl_with_interface 'https://api.vvhan.com/api/en?type=sj' | jsonfilter -qe '@.data.en')
+		fi
 		[ -n "${gwordjson}" ] && echo "$gwordjson"
 		;;
 	3)
-		local gwordjson=`curl -s 'https://api.yixiangzhilv.com/yiyan/sentence/get/'` 
-		local gword=`echo $gwordjson | jsonfilter -qe '@.content'`
-		local gfrom=`echo $gwordjson | jsonfilter -qe '@.author'`
-		[ -n "${gfrom}" ] && gfrom=$(echo "         ---- $gfrom")|| gfrom=''
+		local gwordjson=$(curl_with_interface 'https://api.yixiangzhilv.com/yiyan/sentence/get/')
+		local gword=$(echo $gwordjson | jsonfilter -qe '@.content')
+		local gfrom=$(echo $gwordjson | jsonfilter -qe '@.author')
+		[ -n "${gfrom}" ] && gfrom=$(echo "         ---- $gfrom") || gfrom=''
 		[ -n "${gword}" ] && echo "$gword       $gfrom"
 		;;
 	4)
-		local gwordjson=`curl -s 'https://yijuzhan.com/api/word.php?m=json'` 
-		local gword=`echo $gwordjson | jsonfilter -qe '@.content'`
-		local gfrom=`echo $gwordjson | jsonfilter -qe '@.source'`
-		[ -n "${gfrom}" ] && gfrom=$(echo "    ---- $gfrom")|| gfrom=''
+		local gwordjson=$(curl_with_interface 'https://yijuzhan.com/api/word.php?m=json')
+		local gword=$(echo $gwordjson | jsonfilter -qe '@.content')
+		local gfrom=$(echo $gwordjson | jsonfilter -qe '@.source')
+		[ -n "${gfrom}" ] && gfrom=$(echo "    ---- $gfrom") || gfrom=''
 		[ -n "${gword}" ] && echo "$gword     $gfrom"
 		;;
 	5)
-		local gword=`curl -s https://v.api.aa1.cn/api/api-wenan-dujitang/index.php?aa1=json | sed 's/\[//g' | sed 's/\]//g'| jsonfilter -qe '@.dujitang'` 
+		local gword=$(curl_with_interface 'https://v.api.aa1.cn/api/api-wenan-dujitang/index.php?aa1=json' | sed 's/\[//g' | sed 's/\]//g' | jsonfilter -qe '@.dujitang')
 		[ -n "${gword}" ] && echo "$gword"
 		;;
 	
 	*)
-		local gwordjson=`curl -s 'https://v1.hitokoto.cn'` 
-		local gword=`echo $gwordjson | jsonfilter -qe '@.hitokoto'`
-		local gfrom=`echo $gwordjson | jsonfilter -qe '@.from_who'`
-		[ -n "${gfrom}" ] && gfrom=$(echo "    ---- $gfrom")|| gfrom=''
-		[ -n "${gword}" ] &&   echo "$gword     $gfrom"
+		local gwordjson=$(curl_with_interface 'https://v1.hitokoto.cn')
+		local gword=$(echo $gwordjson | jsonfilter -qe '@.hitokoto')
+		local gfrom=$(echo $gwordjson | jsonfilter -qe '@.from_who')
+		[ -n "${gfrom}" ] && gfrom=$(echo "    ---- $gfrom") || gfrom=''
+		[ -n "${gword}" ] && echo "$gword     $gfrom"
 		;;
 	esac
 }
@@ -80,17 +135,34 @@ kucatword() {
 	[ -s "$WORDTMP" ] && cat $WORDTMP || echo -ne "Acquisition failed ,Please Issues:github@sirpdboy"
 }
 check_url() {
-if [ -f "$WORDDATETMP" ]; then
-		localtime=`cat $WORDDATETMP | grep $(date +%Y%m%d) `
-		if [ $localtime ]; then
-		    [ -s "$WORDTMP" ] && cat $WORDTMP && return
+	if [ -f "$WORDDATETMP" ]; then
+		localtime=$(cat $WORDDATETMP | grep $(date +%Y%m%d))
+		if [ "$localtime" ]; then
+			[ -s "$WORDTMP" ] && cat $WORDTMP && return
 		fi
 	fi
-local checknet=`ping -c 1 -W 1 223.5.5.5 > /dev/null 2>&1 &&echo 1 || echo 2`
-if [ "x$checknet" == "x1" ]; then 
-	kucatword
-else
-    	echo -ne "No internet connection, no information."
-fi
+	
+	# 改进的网络检测：测试实际的HTTP连接
+	local checknet=$(test_url "https://www.baidu.com")
+	if [ "x$checknet" == "x1" ]; then
+		kucatword
+	else
+		# 备用检测：ping多个DNS服务器
+		local ping_success=0
+		for dns in "223.5.5.5" "8.8.8.8" "114.114.114.114"; do
+			if ping -c 1 -W 2 "$dns" >/dev/null 2>&1; then
+				ping_success=1
+				break
+			fi
+		done
+		
+		if [ $ping_success -eq 1 ]; then
+			# 网络可达但HTTP可能有问题，尝试获取
+			kucatword
+		else
+			# 完全无网络连接
+			echo -ne "No internet connection, no information."
+		fi
+	fi
 }
 check_url
