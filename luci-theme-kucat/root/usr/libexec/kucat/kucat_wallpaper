@@ -29,77 +29,111 @@ get_available_wan_interfaces() {
 	done
 }
 
-# 测试URL可达性（支持多接口）
-test_url() {
-	local url=$1
-	local interfaces=$(get_available_wan_interfaces)
-	
-	# 如果没有找到接口，使用默认方式
-	if [ -z "$interfaces" ]; then
-		local status=$(curl -I -o /dev/null -skL --connect-timeout 3 --max-time 10 -w %{http_code} "$url" 2>/dev/null)
-		case "$status" in
-			204|200) echo '1' ;;
-		esac
-		return
-	fi
-	
-	# 尝试每个接口
-	for iface in $interfaces; do
-		local status=$(curl --interface "$iface" -I -o /dev/null -skL --connect-timeout 3 --max-time 10 -w %{http_code} "$url" 2>/dev/null)
-		case "$status" in
-			204|200)
-				echo '1'
-				return
-			;;
-		esac
-	done
-}
-
-# 使用可用接口进行curl请求
-curl_with_interface() {
-	local url="$1"
-	local extra_args="$2"
-	local interfaces=$(get_available_wan_interfaces)
-	
-	# 如果没有找到接口，使用默认方式
-	if [ -z "$interfaces" ]; then
-		curl -fks --connect-timeout 5 --max-time 15 $extra_args "$url" 2>/dev/null
-		return $?
-	fi
-	
-	# 尝试每个接口
-	for iface in $interfaces; do
-		local result=$(curl --interface "$iface" -fks --connect-timeout 5 --max-time 15 $extra_args "$url" 2>/dev/null)
-		if [ $? -eq 0 ] && [ -n "$result" ]; then
-			echo "$result"
+# 检查HTTP工具可用性
+check_http_tool() {
+	if command -v curl >/dev/null 2>&1; then
+		# 测试curl是否正常工作
+		if curl --version >/dev/null 2>&1; then
+			echo "curl"
 			return 0
 		fi
-	done
+	fi
+	
+	if command -v wget >/dev/null 2>&1; then
+		echo "wget"
+		return 0
+	fi
+	
 	return 1
+}
+
+# 使用可用工具进行HTTP请求
+http_request() {
+	local url="$1"
+	local tool=$(check_http_tool)
+	local interfaces=$(get_available_wan_interfaces)
+	
+	case "$tool" in
+		"curl")
+			# 使用curl
+			if [ -z "$interfaces" ]; then
+				curl -s --connect-timeout 5 --max-time 15 "$url" 2>/dev/null
+			else
+				for iface in $interfaces; do
+					local result=$(curl --interface "$iface" -s --connect-timeout 5 --max-time 15 "$url" 2>/dev/null)
+					if [ $? -eq 0 ] && [ -n "$result" ]; then
+						echo "$result"
+						return 0
+					fi
+				done
+			fi
+			;;
+		"wget")
+			# 使用wget (不支持接口绑定，但可以设置超时)
+			wget -q -T 15 -t 2 -O - "$url" 2>/dev/null
+			;;
+		*)
+			return 1
+			;;
+	esac
+}
+
+# 测试URL可达性
+test_url() {
+	local url=$1
+	local tool=$(check_http_tool)
+	
+	case "$tool" in
+		"curl")
+			local interfaces=$(get_available_wan_interfaces)
+			if [ -z "$interfaces" ]; then
+				local status=$(curl -I -o /dev/null -skL --connect-timeout 3 --max-time 10 -w %{http_code} "$url" 2>/dev/null)
+				case "$status" in
+					204|200) echo '1' ;;
+				esac
+			else
+				for iface in $interfaces; do
+					local status=$(curl --interface "$iface" -I -o /dev/null -skL --connect-timeout 3 --max-time 10 -w %{http_code} "$url" 2>/dev/null)
+					case "$status" in
+						204|200)
+							echo '1'
+							return
+						;;
+					esac
+				done
+			fi
+			;;
+		"wget")
+			# wget测试连通性
+			if wget -q -T 5 -t 1 --spider "$url" 2>/dev/null; then
+				echo '1'
+			fi
+			;;
+	esac
 }
 
 curl_bgurl() {
 	case "$background" in
 	1)
-		local ppath=$(curl_with_interface 'https://open.iciba.com/dsapi/' | jsonfilter -qe '@.picture4')
+		local ppath=$(http_request 'https://open.iciba.com/dsapi/' | jsonfilter -qe '@.picture4')
 		[ -n "${ppath}" ] && echo "$ppath"
 		;;
 	2)
-		local result=$(curl_with_interface "https://api.unsplash.com/photos/random?count=1&orientation=landscape" "--header 'Authorization: Client-ID kmFIroj2ELqXJPtC0XUoyww-Tr_lDU8Ho8uxjptIrCo'")
+		local result=$(http_request "https://api.unsplash.com/photos/random?count=1&orientation=landscape")
 		echo "$result" | jsonfilter -e "@[0]['urls']['regular']"
 		;;
 	3)
-		local ppath=$(curl_with_interface "https://www.bing.com/HPImageArchive.aspx?format=js&n=1" | jsonfilter -qe '@.images[0].url')
+		local ppath=$(http_request "https://www.bing.com/HPImageArchive.aspx?format=js&n=1" | jsonfilter -qe '@.images[0].url')
 		[ -n "${ppath}" ] && echo "https://www.bing.com${ppath}"
 		;;
 	4)
 		local i=$(awk 'BEGIN{srand();print int(rand()*8)}')
 		local j=$(awk 'BEGIN{srand();print int(rand()*200)}')
-		local ppath=$(curl_with_interface "http://wp.birdpaper.com.cn/intf/search?content=4k&pageno=$j&count=9" | awk -F '\"count\":9' '{print $2}' | awk -F ',\"processTime\"' '{print $1}' | sed 's#,#{#' | jsonfilter -e "@.list[$i].url")
+		local ppath=$(http_request "http://wp.birdpaper.com.cn/intf/search?content=4k&pageno=$j&count=9" | awk -F '\"count\":9' '{print $2}' | awk -F ',\"processTime\"' '{print $1}' | sed 's#,#{#' | jsonfilter -e "@.list[$i].url")
 		[ -n "${ppath}" ] && echo "$ppath"
 		;;
 	5)
-		local result=$(curl_with_interface "https://wallhaven.cc/api/v1/search?resolutions=1920x1080&sorting=random")
+		local result=$(http_request "https://wallhaven.cc/api/v1/search?resolutions=1920x1080&sorting=random")
 		echo "$result" | jsonfilter -qe '@.data[0].path'
 		;;
 	esac
@@ -112,22 +146,30 @@ bgurl_down() {
 		local bgurl="$(curl_bgurl)"
 		if [ -n "$bgurl" ]; then
 			rm -rf $BGURL
-			# 使用改进的下载方法
-			local interfaces=$(get_available_wan_interfaces)
+			# 使用HTTP工具下载
+			local tool=$(check_http_tool)
 			local download_success=0
 			
-			if [ -z "$interfaces" ]; then
-				# 默认方式下载
-				curl -kLfs --connect-timeout 10 --max-time 30 "$bgurl" -o "$BGURL" && download_success=1
-			else
-				# 尝试每个接口下载
-				for iface in $interfaces; do
-					if curl --interface "$iface" -kLfs --connect-timeout 10 --max-time 30 "$bgurl" -o "$BGURL" 2>/dev/null; then
-						download_success=1
-						break
+			case "$tool" in
+				"curl")
+					local interfaces=$(get_available_wan_interfaces)
+					if [ -z "$interfaces" ]; then
+						curl -kLfs --connect-timeout 10 --max-time 30 "$bgurl" -o "$BGURL" && download_success=1
+					else
+						for iface in $interfaces; do
+							if curl --interface "$iface" -kLfs --connect-timeout 10 --max-time 30 "$bgurl" -o "$BGURL" 2>/dev/null; then
+								download_success=1
+								break
+							fi
+						done
 					fi
-				done
-			fi
+					;;
+				"wget")
+					if wget -q -T 30 -t 2 -O "$BGURL" "$bgurl" 2>/dev/null; then
+						download_success=1
+					fi
+					;;
+			esac
 			
 			[ $download_success -eq 1 ] && date +%Y%m%d > $KUCATTMP
 		fi
