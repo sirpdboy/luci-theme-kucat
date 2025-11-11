@@ -674,11 +674,11 @@ footer>a {
     top: 50%;
     left: 50%;
     transform: translateX(-50%) translateY(-50%);
-    padding: 1.5rem;
+    padding: 1.5rem!important;
     border-radius: 0.25rem;
     background-color: rgba(var(--primary-rgbbody), 1);
     color: var(--body-color);
-    box-shadow: 0 .1rem .5rem .2rem var(--input-boxcolor);
+    box-shadow: 0 .1rem .1rem .3rem var(--input-boxcolor);
 }
 #view > div:first-child {
   display: flex;
@@ -4205,6 +4205,7 @@ pre.command-output {
 .stats-title,
 .bandix-title  {
   color: var(--primary-title-color)!important;
+  background-color: rgba(255, 255, 255, 0)!important;
 }
 .bandix-card-body {
    padding: 0!important;
@@ -4266,13 +4267,12 @@ border-bottom: 0px solid #f1f5f9!important;
   background-color: rgba(var(--primary-rgbm), 0.5);
 }
 
-[data-page*="bandix"] .history-tabs>button,
-[data-page*="bandix"] .action-button,
-[class*="bandix-"],
-[data-page*="bandix"] .filter-select,
-[data-page*="bandix"] .filter-input,
-[data-page*="bandix"] .form-input,
-[data-page*="bandix"] .form-select
+[data-page^="admin-status-bandix"] .history-tabs>button,
+[data-page^="admin-status-bandix"] .action-button,
+[data-page^="admin-status-bandix"] .filter-select,
+[data-page^="admin-status-bandix"] .filter-input,
+[data-page^="admin-status-bandix"] .form-input,
+[data-page^="admin-status-bandix"] .form-select
 {
   border: 0px solid var(--input-boxcolor)!important;
   border-bottom: 0px solid var(--input-boxcolor)!important;
@@ -4280,10 +4280,10 @@ border-bottom: 0px solid #f1f5f9!important;
   color: var(--body-color) !important;
   padding: 0 20px 0 10px!important;
 }
-[data-page*="bandix"] .action-button {
+[data-page^="admin-status-bandix"] .action-button {
   background-color: rgba(var(--primary-rgbm), 0.9)!important;
 }
-[data-page*="bandix"] .history-tabs>button {
+[data-page^="admin-status-bandix"] .history-tabs>button {
   background-color: rgba(var(--primary-rgbm), 0.2)!important;
 }
 
