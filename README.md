@@ -22,6 +22,8 @@
 - Open source date: April 2023
 - Main supports LEDE18.06 and official 18.06 branch open source time: April 2023 version: 1.2.6
 - JS supports official website 19.07-24.10 branch latest version: May 2025 version: 2.5.9 compatible with OPENWRT 24.10 branch.
+- UCode version supports official website branch 19.07-24.10 latest version: November 2025 version: 3.1.2 compatible with OPENWRT latest version.
+- The new version no longer supports the advancedplus plugin. Please use the matching Luci app ucat config dedicated JS version plugin.
 
 # Function Introduction
 - Being cool is beauty, born from movement.
