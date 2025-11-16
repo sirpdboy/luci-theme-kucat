@@ -17,12 +17,13 @@
 
 
 # 酷猫主题链接： https://github.com/sirpdboy/luci-theme-kucat  
-# 进队设置-酷猫主题设置下载链接： [https://github.com/sirpdboy/luci-app-advancedplus](https://github.com/sirpdboy/luci-app-advancedplus/releases)
+# 进队设置-酷猫主题设置下载链接： [https://github.com/sirpdboy/luci-app-kucat-config](https://github.com/sirpdboy/luci-app-kucat-config/releases)
 - 开发时间：2021年12月
 - 发布时间：2023年2月
 - 开源时间：2023年4月 
 - main 支持LEDE18.06和官方18.06分支  开源时间：2023年4月   版本：1.2.6
 - JS 支持官网19.07-24.10分支 最新版本：2025年5月 版本：2.5.9 适配OPENWRT 24.10分支。
+- ucode版支持官网19.07-24.10分支 最新版本：2025年11月 版本：3.1.2 适配OPENWRT 最新版本。 新版本不再支持advancedplus插件，请用配套luci-app-kucat-config 专用JS版插件。
 
 # 功能介绍
 
@@ -39,7 +40,7 @@
 # 特殊说明
 - 当系统中 有进阶设置又有 KUCAT主题设置工具时， 以进阶设置中的设置为准。
 - 如果设置上有问题，可以在SSH登陆后，用4号功能恢复设置。
-- 如果是进阶设置，恢复默认设置，可以用：/etc/init.d/advancedplus reset
+- 如果是进阶设置，恢复默认设置，可以用：/etc/init.d/kucat reset
 - 
 
 # 为什么叫酷猫 ？ 
