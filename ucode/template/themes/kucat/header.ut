@@ -217,7 +217,7 @@ if (dayword == "1") {
             {% endif %}
 
     }
-     @media screen and (max-width: 1152px) { .main .main-left {background-color:rgba(var(--primary-rgbbody), 0.95);}}
+     @media screen and (max-width: 920px) { .main .main-left {background-color:rgba(var(--primary-rgbbody), 0.95);}}
     {% endif -%}
     
 	{% if (setbar == "1"): %}

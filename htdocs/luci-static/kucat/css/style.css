@@ -2025,7 +2025,7 @@ fieldset>table>tbody>tr:nth-of-type(2n+1):hover, table>tbody>tr:nth-of-type(2n+1
 .cbi-section-table-row>.cbi-value-field .cbi-input-text,
 .cbi-section-table-row>.cbi-value-field .cbi-input-password {
   min-width: 8rem;
-  max-width: 12rem;
+  max-width: 10rem;
 }
 .cbi-section-table-row>.cbi-value-field [data-dynlist]>input,
 .cbi-section-table-row>.cbi-value-field input.cbi-input-password {
