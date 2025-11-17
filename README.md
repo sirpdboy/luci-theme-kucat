@@ -1,11 +1,26 @@
+<!-- markdownlint-configure-file {
+  "MD013": {
+    "code_blocks": false,
+    "tables": false,
+    "line_length":200
+  },
+  "MD033": false,
+  "MD041": false
+} -->
+
+[lede]: https://github.com/coolsnowwolf/lede
+[official]: https://github.com/openwrt/openwrt
+[immortalwrt]: https://github.com/immortalwrt/immortalwrt
+
 ![hello](https://views.whatilearened.today/views/github/sirpdboy/deplives.svg) [![](https://img.shields.io/badge/TG群-点击加入-FFFFFF.svg)](https://t.me/joinchat/AAAAAEpRF88NfOK5vBXGBQ)
 
-<h1 align="center">
-  <br>luci-theme-kucat <br>
-</h1>
+# KuCat Theme Config Plugin
 
+   You can set KuCat theme font size, color scheme, shortcut tools,
+   
+   and manage login and desktop background images here.
+   
   <p align="center">
-
   <a target="_blank" href="https://github.com/sirpdboy/luci-theme-kucat/releases">
     <img src="https://img.shields.io/github/release/sirpdboy/luci-theme-kucat.svg?style=flat-square&label=luci-theme-kucat&colorB=green">
   </a>
@@ -44,29 +59,37 @@
 ## describe
 
 - luci-theme-kucat  ：https://github.com/sirpdboy/luci-theme-kucat
-- luci-app-advancedplus  ：https://github.com/sirpdboy/luci-app-advancedplus
 - luci-app-kucat-config  ：https://github.com/sirpdboy/luci-app-kucat-config 
 
 
+## Branch Introduction
+
+There are currently two main branches that are adapted to different versions of the **OpenWrt** source code.  
+The table below will provide a detailed introduction:
+
+| Branch | Version | Description                        | Matching source                                           |
+| ------ | ------- | ---------------------------------- | --------------------------------------------------------- |
+| master | v3.x.x  | Support the latest version of LuCI | [Official OpenWrt][official] • [ImmortalWrt][immortalwrt] |
+| 23.05  | v2.x.x  | Support the 23.05 version of LuCI  | [Official OpenWrt][official] • [ImmortalWrt][immortalwrt] |
+| 18.06  | v1.x.x  | Support the 18.06 version of LuCI  | [Lean's LEDE][lede]                                         |
+
+## Getting started
+
+### Build for Lean's LEDE project
+
+```bash
+cd lede/package/lean
+rm -rf luci-app-kucat-config # if have
+git clone -b 18.06 https://github.com/sirpdboy/luci-app-kucat-config.git luci-app-kucat-config
+make menuconfig #choose LUCI->Application->Luci-app-argon-config
+make -j1 V=s
+```
+
 ## interface
 
+![screenshots](./doc/pc.jpg)
 
-![screenshots](./doc/ekucat1.png)
-
-![screenshots](./doc/ekucat2.png)
-
-![screenshots](./doc/ekucat3.png)
-
-![screenshots](./doc/ekucat4.png)
-
-![screenshots](./doc/ekucat5.png)
-
-![screenshots](./doc/ekucat6.png)
-
-![screenshots](./doc/kucatz1.png)
-
-![screenshots](./doc/kucatz2.png)
-
+![screenshots](./doc/mob.jpg)
 
 # My other project
 
