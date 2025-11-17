@@ -92,6 +92,27 @@ make menuconfig #choose LUCI->Theme->Luci-theme-kucat
 make -j1 V=s
 ```bash
 
+### Install for LuCI 18.06 ( Lean's LEDE )
+
+```bash
+wget --no-check-certificate https://github.com/sirpdboy/luci-theme-kucat/releases/download/v1.5.6/luci-theme-kucat_1.5.6-20240302_all.ipk
+opkg install luci-theme-kucat*.ipk
+```
+
+### Install for OpenWrt official SnapShots and ImmortalWrt
+
+```bash
+wget --no-check-certificate https://github.com/sirpdboy/luci-theme-kucat/releases/download/v2.6.18/luci-theme-kucat_2.6.18-r20251018_all.ipk
+opkg install luci-theme-kucat*.ipk
+```
+
+### Install luci-app-kucat-config
+
+```bash
+wget --no-check-certificate -O luci-theme-kucat_2.6.10-r20250720_all.ipk https://github.com/sirpdboy/luci-app-kucat-config/releases/download/v1.1.0/luci-theme-kucat_2.6.10-r20250720_all.ipk
+opkg install luci-app-kucat-config*.ipk
+```
+
 
 ## interface
 
