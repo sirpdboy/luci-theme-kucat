@@ -78,12 +78,20 @@ The table below will provide a detailed introduction:
 ### Build for Lean's LEDE project
 
 ```bash
-cd lede/package/lean
 rm -rf luci-app-kucat-config # if have
-git clone -b 18.06 https://github.com/sirpdboy/luci-app-kucat-config.git luci-app-kucat-config
-make menuconfig #choose LUCI->Application->Luci-app-argon-config
+git clone -b 18.06 https://github.com/sirpdboy/luci-theme-kucat.git luci-theme-kucat
+make menuconfig #choose LUCI->Theme->luci-theme-kucat
 make -j1 V=s
 ```
+### Build for OpenWrt official SnapShots and ImmortalWrt
+
+```bash
+cd openwrt/package
+git clone https://github.com/sirpdboy/luci-theme-kucat.git
+make menuconfig #choose LUCI->Theme->Luci-theme-kucat
+make -j1 V=s
+```bash
+
 
 ## interface
 
