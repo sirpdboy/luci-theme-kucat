@@ -1,0 +1,228 @@
+#!/bin/sh
+
+. /lib/functions.sh
+. /usr/share/libubox/jshn.sh
+
+readonly bg_path="/www/luci-static/resources/background"
+readonly bg_pathd="/www/luci-static/kucat/background"
+readonly tmp_path="/tmp/kucat_login_bg.tmp"
+readonly tmp_pathd='/tmp/kucat_desktop_bg.tmp'
+
+# 创建目录函数
+create_dirs() {
+    mkdir -p "$bg_path" "$bg_pathd"
+    chmod 755 "$bg_path" "$bg_pathd"
+}
+
+check_filename() {
+    local filename="$1"
+    [ -z "$filename" ] && return 1
+    if echo "$filename" | grep -q '\.\.' || echo "$filename" | grep -q '/'; then
+        return 1
+    fi
+    local extension=$(echo "$filename" | awk -F. '{print tolower($NF)}')
+    case "$extension" in
+        jpg|jpeg|png|gif|webp)
+            return 0
+            ;;
+        *)
+            return 1
+            ;;
+    esac
+}
+
+# 检查文本文件
+check_text_file() {
+    local filename="$1"
+    [ -z "$filename" ] && return 1
+    if echo "$filename" | grep -q '\.\.' || echo "$filename" | grep -q '/'; then
+        return 1
+    fi
+    local extension=$(echo "$filename" | awk -F. '{print tolower($NF)}')
+    case "$extension" in
+        md|txt|log|conf|config|sh|json|js|css|html|htm|xmll)
+            return 0
+            ;;
+        *)
+            # 对于没有扩展名的文件，检查文件类型
+            if [ -f "$bg_pathd/$filename" ]; then
+                local file_type=$(file -b "$bg_pathd/$filename" 2>/dev/null)
+                case "$file_type" in
+                    *"text"*|*"ASCII"*)
+                        return 0
+                        ;;
+                    *)
+                        return 1
+                        ;;
+                esac
+            fi
+            return 1
+            ;;
+    esac
+}
+
+case "$1" in
+"list")
+	json_init
+	json_add_object "space"
+	json_close_object
+	json_add_object "del"
+	json_add_string "filename" "filename"
+	json_close_object
+	json_add_object "rename"
+	json_add_string "newname" "filename"
+	json_close_object
+	json_add_object "deld"
+	json_add_string "filename" "filename"
+	json_close_object
+	json_add_object "renamed"
+	json_add_string "newname" "filename"
+	json_close_object
+	json_add_object "read_file"
+	json_add_string "filename" "filename"
+	json_close_object
+	json_dump
+	json_cleanup
+	;;
+"call")
+    create_dirs
+	case "$2" in
+	"space")
+		json_init
+        json_add_int "space" "$(df /www 2>/dev/null | awk 'NR==2 {print $4}')"
+		json_dump
+		json_cleanup
+		;;
+	"del")
+		read -r input
+		json_load "$input"
+		json_get_var filename "filename"
+		json_cleanup
+
+        if ! check_filename "$filename"; then
+            echo '{ "result": 255 }'
+            exit 0
+        fi
+
+        if rm -f "$bg_path/$filename"; then
+            echo '{ "result": 0 }'
+        else
+            echo '{ "result": 1 }'
+        fi
+		;;
+	"rename")
+		read -r input
+		json_load "$input"
+		json_get_var newname "newname"
+		json_cleanup
+
+        if ! check_filename "$newname"; then
+            echo '{ "result": 255 }'
+            exit 0
+        fi
+
+        # 确保临时文件存在
+        if [ ! -f "$tmp_path" ]; then
+            echo '{ "result": 1, "error": "Temporary file not found" }'
+            exit 0
+        fi
+
+        if mv "$tmp_path" "$bg_path/$newname" 2>/dev/null; then
+			chmod 0644 "$bg_path/$newname"
+			echo '{ "result": 0 }'
+		else
+            echo '{ "result": 1, "error": "Failed to move file" }'
+		fi
+		;;
+	"deld")
+		read -r input
+		json_load "$input"
+		json_get_var filename "filename"
+		json_cleanup
+
+        if ! check_filename "$filename"; then
+			echo '{ "result": 255 }'
+            exit 0
+        fi
+
+        if rm -f "$bg_pathd/$filename"; then
+            echo '{ "result": 0 }'
+        else
+            echo '{ "result": 1 }'
+        fi
+		;;
+	"renamed")
+		read -r input
+		json_load "$input"
+		json_get_var newname "newname"
+		json_cleanup
+
+        if ! check_filename "$newname"; then
+            echo '{ "result": 255 }'
+            exit 0
+        fi
+
+        # 确保临时文件存在
+        if [ ! -f "$tmp_pathd" ]; then
+            echo '{ "result": 1, "error": "Temporary file not found" }'
+            exit 0
+        fi
+
+        if mv "$tmp_pathd" "$bg_pathd/$newname" 2>/dev/null; then
+			chmod 0644 "$bg_pathd/$newname"
+			echo '{ "result": 0 }'
+		else
+            echo '{ "result": 1, "error": "Failed to move file" }'
+        fi
+		;;
+	"read_file") 
+		read -r input
+		json_load "$input"
+		json_get_var filename "filename"
+		json_cleanup
+
+        # 检查文件名安全性
+        if [ -z "$filename" ] || echo "$filename" | grep -q '\.\.' || echo "$filename" | grep -q '/'; then
+            echo '{ "result": 255, "error": "Invalid filename" }'
+            exit 0
+        fi
+
+        local file_path="$bg_pathd/$filename"
+        
+        # 检查文件是否存在
+        if [ ! -f "$file_path" ]; then
+            echo '{ "result": 1, "error": "File not found" }'
+            exit 0
+        fi
+
+        # 检查文件大小（限制为100KB）
+        local file_size=$(stat -c%s "$file_path" 2>/dev/null || stat -f%z "$file_path" 2>/dev/null)
+        if [ "$file_size" -gt 102400 ]; then
+            echo '{ "result": 1, "error": "File too large" }'
+            exit 0
+        fi
+
+        # 检查文件类型，只允许文本文件
+        if ! check_text_file "$filename"; then
+            echo '{ "result": 1, "error": "Not a text file" }'
+            exit 0
+        fi
+
+        # 读取文件内容
+        if content=$(cat "$file_path" 2>/dev/null); then
+            # 对内容进行JSON转义
+            content=$(echo "$content" | sed 's/\\/\\\\/g' | sed 's/"/\\"/g' | sed 's/\//\\\//g' | sed 's/\$/\\$/g')
+            json_init
+            json_add_string "content" "$content"
+            json_add_string "filename" "$filename"
+            json_add_int "size" "$file_size"
+            json_add_int "result" 0
+            json_dump
+            json_cleanup
+        else
+            echo '{ "result": 1, "error": "Failed to read file" }'
+        fi
+		;;
+	esac
+	;;
+esac

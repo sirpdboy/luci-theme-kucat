@@ -1,0 +1,313 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: dingpengyu <jerrykuku@gmail.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: zh_CN\n"
+"X-Generator: Poedit 2.3.1\n"
+
+msgid ""
+msgstr "Content-Type: text/plain; charset=UTF-8\n"
+
+msgid "KuCat Theme Config"
+msgstr "KuCat主题设置"
+
+msgid "KuCat Config"
+msgstr "KuCat设置"
+
+msgid "You can set KuCat theme font size, color scheme, shortcut tools, and manage login and desktop background images here."
+msgstr "您可以在这里设置KuCat主题字体大小,颜色方案,快捷工具,并管理登录背景和桌面背景图片."
+
+msgid "Local wallpapers need to be uploaded by oneself, and those that are automatically downloaded will only be downloaded on the first visit every day, reducing frequent remote access and making usage smoother."
+msgstr "本地壁纸需要自己上传，自动下载的只有每天第一次访问才会自动下载，减少频繁远程访问，使用更流畅。"
+
+msgid "Wallpaper Source"
+msgstr "壁纸来源"
+
+msgid "Local wallpaper"
+msgstr "本地壁纸库"
+
+msgid "Auto download Bing wallpaper"
+msgstr "自动下载Bing每日壁纸"
+
+msgid "Auto download unsplash wallpaper"
+msgstr "自动下载unsplash壁纸"
+
+msgid "Auto download Iciba wallpaper"
+msgstr "自动下载词霸每日壁纸"
+
+msgid "Auto download Bird 4K wallpaper"
+msgstr "自动下载小鸟4K高清壁纸(每日4千张随机选)"
+
+msgid "Set font size"
+msgstr "字体大小"
+
+msgid "Small font"
+msgstr "小号字体"
+
+msgid "Normal font"
+msgstr "中号字体"
+
+msgid "Large font"
+msgstr "大号字体"
+
+msgid "Wallpaper synchronization"
+msgstr "壁纸同步"
+
+msgid "Is the login wallpaper consistent with the desktop wallpaper? If selected, it means that the desktop wallpaper and login wallpaper are the same image."
+msgstr "登录壁纸与桌面壁纸是否一致？选择则表示桌面壁纸和登录壁纸是同一张图片。"
+
+msgid "Refreshing mode"
+msgstr "清爽模式"
+
+msgid "Enable Daily Word"
+msgstr "启用每日一言"
+
+msgid "Care mode (large font)"
+msgstr "关怀模式(大字体)"
+
+msgid "Expand navigation bar"
+msgstr "展开导航栏"
+
+msgid "Expand or shrink the five quick navigation bars"
+msgstr "展开或收缩五个快捷导航栏"
+
+msgid "Services Ssrkey settings"
+msgstr "服务相关快捷键设置"
+
+msgid "System Userkey settings"
+msgstr "系统相关快捷键设置"
+
+msgid "Status Homekey settings"
+msgstr "状态相关快捷键设置"
+
+msgid "KuCat Theme Color Schemes List"
+msgstr "KuCat主题颜色配置列表"
+
+msgid "Pre set 6 color schemes, enable wallpaper as desktop wallpaper, theme RGB values such as 255,0,0 (representing red), dark mode with wallpaper blur for better effect. No matter how many schemes are enabled, "
+"only the first scheme should be used"
+msgstr "预置6种颜色方案，启用壁纸是桌面壁纸，主题RGB值如：255,0,0(表示红色)，暗色模式配合壁纸模糊开启效果更好。"
+"不管启用几个方案只用最前面方案"
+
+msgid "Color Schemes"
+msgstr "颜色方案"
+
+msgid "Remarks"
+msgstr "备注"
+
+msgid "Enable this color scheme"
+msgstr "启用此配色"
+
+msgid "Light dark mode"
+msgstr "亮暗模式"
+
+msgid "Main color(RGB)"
+msgstr "主题色值(RGB)"
+
+msgid "RGB values, such as red being '255,0,0', or using a preset scheme (which includes fence color values)"
+msgstr "RGB值，如红色为'255,0,0'，或使用预设方案（预设方案包含栅栏色值）"
+
+msgid "Light"
+msgstr "亮色"
+
+msgid "Auto"
+msgstr "自动"
+
+msgid "Dark"
+msgstr "暗色"
+
+msgid "RoyalBlue"
+msgstr "皇家高端蓝"
+
+msgid "MediumSeaGreen"
+msgstr "中海清爽绿"
+
+msgid "SandyBrown"
+msgstr "桑迪布朗黄"
+
+msgid "Black tea eye protection gray"
+msgstr "黑茶护眼灰"
+
+msgid "TomatoRed"
+msgstr "番茄别样红"
+
+msgid "Cool night time(gray and dark)"
+msgstr "炫酷黑夜时空(灰度暗)"
+
+msgid "Cool Ocean Heart (transparent and bright)"
+msgstr "炫酷海洋之心(透明亮)"
+
+msgid "Use wallpaper"
+msgstr "使用壁纸"
+
+msgid "Use desktop wallpaper"
+msgstr "使用桌面壁纸"
+
+msgid "Wallpaper transparency"
+msgstr "壁纸透明度"
+
+msgid "0: Transparent, 1: Opaque (Suggestion: Mild Transparent 0.9)"
+msgstr "0：透明，1：不透明（建议：轻度透明0.9）"
+
+msgid "Wallpaper blur radius"
+msgstr "壁纸模糊半径"
+
+msgid "The larger the value, the more blurry it becomes (0: not blurry, suggestion: 0, blurry values may cause slower reflection)"
+msgstr "值越大越模糊（0：不模糊，建议：0，模糊值可能导致反映变慢）"
+
+msgid "Fence Color(RGB)"
+msgstr "栅栏色值(RGB)"
+
+msgid "Fence color transparency"
+msgstr "栅栏颜色透明度"
+
+msgid "0: Transparent, 1: Opaque (Recommendation: Heavy Transparency 0.1)"
+msgstr "0：透明，1：不透明（建议：重度透明0.1）"
+
+msgid "RGB values, such as '255,0,0' for red, suggest dark values"
+msgstr "RGB值，例如红色为'255,0,0'，建议深色值"
+
+
+msgid "Upload..."
+msgstr "上传..."
+
+msgid ""
+"You can upload files in formats such as gif/jpg/png/webp to create your favorite wallpapers"
+msgstr ""
+"你可以上传gif/jpg/png/webp等格式文件，以创建自己喜欢壁纸。"
+
+
+msgid "Background file list"
+msgstr "背景文件列表"
+
+msgid "Filename"
+msgstr "文件名"
+
+msgid "Modified date"
+msgstr "修改时间"
+
+msgid "Size"
+msgstr "大小"
+
+msgid "Action"
+msgstr "操作"
+
+msgid "Delete"
+msgstr "删除"
+
+msgid "Files will be uploaded to <code>%s</code>."
+msgstr "文件将被上传至<code>%s</code>。"
+
+msgid "Desktop Wallpaper Upload"
+msgstr "桌面壁纸上传"
+
+msgid "Login Wallpaper Upload"
+msgstr "登录壁纸上传"
+
+msgid "Kucat Theme Desktop Background Wallpaper Upload and Management."
+msgstr "kucat主题桌面背景壁纸文件上传和管理。"
+
+msgid "Kucat theme Login background wallpaper upload and management."
+msgstr "kucat主题登录背景壁纸上传和管理"
+
+msgid ""
+"File uploaded successfully!"
+msgstr ""
+"文件上传成功！"
+
+
+msgid "File deleted successfully!"
+msgstr "文件删除成功！"
+
+
+msgid "Failed to upload file: %s"
+msgstr "文件上传失败：%s"
+
+msgid "No file selected or upload failed"
+msgstr "未选择文件或上传失败"
+
+msgid "Available space: %1024.2mB"
+msgstr "可用空间: %1024.2mB"
+
+msgid "No files found."
+msgstr "没有文件"
+
+msgid "Basic Settings"
+msgstr "基本设置"
+
+msgid "List View"
+msgstr "列表显示"
+
+msgid "Grid View"
+msgstr "网格显示"
+
+msgid "Select All"
+msgstr "全选"
+
+msgid "Invert Selection"
+msgstr "反选"
+
+msgid "Select None"
+msgstr "取消"
+
+msgid "Delete Selected"
+msgstr "删除所选"
+
+msgid "Size: %1024.2mB, Modified: %s"
+msgstr "大小: %1024.2mB, 时间: %s"
+
+msgid "Selected: %d of %d files"
+msgstr "选择: %d 个 共 %d 个文件"
+
+msgid "Selected: <strong>All %d files</strong>"
+msgstr "选择<strong>全部 %d 个文件</strong>"
+
+msgid "Unknow file"
+msgstr "未知图片"
+
+msgid "Click to view larger preview"
+msgstr "点击预览大图"
+
+msgid "Preview"
+msgstr "预览"
+
+msgid "Select"
+msgstr "选择"
+
+msgid "Selected: 0 files"
+msgstr "选择: 0 个文件"
+
+msgid "Delete operation failed: %s"
+msgstr "删除失败: %s"
+
+msgid "Some files failed to delete."
+msgstr "一些文件删除失败"
+
+msgid "Are you sure you want to delete %d selected files?"
+msgstr "你确定删除选择的 %d 个文件?"
+
+msgid "Please select files to delete."
+msgstr "请选择要删除的文件"
+
+msgid ""
+msgstr ""
+
+
+msgid ""
+msgstr ""
+
+
+msgid ""
+msgstr ""
+
+
+msgid ""
+msgstr ""
+
+
+

@@ -1,0 +1,22 @@
+{
+	"luci-app-kucat-config": {
+		"description": "Grant UCI access for luci-app-kucat-config",
+		"read": {
+			"file": {
+				"/www/luci-static/kucat/background/*": [ "list" ],
+				"/www/luci-static/resources/background/*": [ "list" ],
+				"/www/luci-static/kucat/img/*": [ "list" ]
+			},
+			"ubus": {
+				"luci.kucatconfig": [ "*" ]
+			},
+			"uci": [ "kucat" ]
+		},
+		"write": {
+			"file": {
+				"/tmp/kucat/*": [ "write" ]
+			},
+			"uci": [ "kucat" ]
+		}
+	}
+}
