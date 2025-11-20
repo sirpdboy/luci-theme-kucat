@@ -1,8 +1,0 @@
-{
-    "luci-theme-kucat": {
-        "description": "Grant UCI access for luci-theme-kucat",
-        "read": {
-            "uci": [ "kucat" ]
-        }
-    }
-}
