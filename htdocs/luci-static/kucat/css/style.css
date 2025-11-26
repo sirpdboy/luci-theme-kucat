@@ -662,7 +662,6 @@ header .fill .container .flex1 .brand {
 header .fill .status span {
     display: inline-block;
     font-size: .875rem;
-    font-weight: 700;
     white-space: nowrap;
     text-decoration: none;
     text-transform: uppercase;
@@ -2112,7 +2111,7 @@ body.modal-overlay-active #modal_overlay {
 
 .cbi-section {
     border: 0px solid rgba(0, 0, 0, 0);
-    overflow: auto;
+    /* overflow: auto; */
     box-shadow: 0px 1px 0px var(--input-boxcolor);
     padding: 0
 }
@@ -3371,6 +3370,12 @@ body.lang_pl.node-main-login .cbi-value-title {
     min-width: 10rem;
     max-width: 14rem;
     width: 10rem
+}
+.history-tooltip {
+  background-color: rgba(var(--primary-rgbbody),1)!important;
+  color: var(--body-color) !important;
+  border: 1px solid var(--input-boxcolor)!important;
+  width: 300px!important;
 }
 
 #dialog_reslov .dialog_box {
