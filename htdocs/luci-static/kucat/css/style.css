@@ -562,7 +562,6 @@ footer a {
 #view {
     display: flex;
     flex-direction: column;
-    /* gap: 1rem; */
     min-width: inherit;
     overflow-x: auto;
     overflow-y: hidden
@@ -997,8 +996,6 @@ body[class*="node-"]>.main>.main-left>.nav>.slide>.menu.active::before {
     display: flex;
     height: 4.8rem;
     background-clip: padding-box;
-    /*border-bottom: 1px solid var(--menu-fontcolor); 
-    margin: 0rem 1rem;*/
     justify-content: center;
     align-items: center;
     padding: 2rem
@@ -2404,7 +2401,9 @@ div>.table>.tr:nth-of-type(2n+1):hover {
     display: inline-block;
     width: 100%;
 }
-.cbi-value .cbi-value-title {
+
+.cbi-value>.cbi-value-field,
+.cbi-value>.cbi-value-title {
   line-height: 2.3rem;
 }
 .cbi-value:first-child {
@@ -3106,7 +3105,6 @@ body.lang_pl.node-main-login .cbi-value-title {
 #view>div,
 #view>table {
     backdrop-filter: var(--ufilter);
-    /* width: 100%; */
     -webkit-backdrop-filter: var(--ufilter)
 }
 
@@ -4072,7 +4070,6 @@ input,
         display: flex;
         align-items: center;
         flex-wrap: wrap;
-        /*width: 100%; */
         padding: 0.5rem
     }
 
