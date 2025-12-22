@@ -615,15 +615,15 @@ footer a {
 }
 
 .main-right {
-    padding-top: 4.8rem;
-    height: 100%;
-    flex-grow: 1;
-    overflow-x: hidden;
-    overflow-y: auto;
+  height: 100%;
+  flex-grow: 1;
+  overflow-x: hidden;
+  overflow-y: auto;
     display: flex;
-    flex-direction: column;
+  flex-direction: column;
     transition: all 0.2s
 }
+
 
 .main-right>#maincontent {
     position: relative;
@@ -641,20 +641,24 @@ footer a {
 }
 
 header.pd-primary {
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: calc(100% - 15rem);
-    z-index: 100;
-    box-shadow: 0 0.3rem 0.5rem var(--input-boxcolor);
-    background-color: rgba(var(--primary-rgbm),  var(--primary-rgbm-ts));
-    background-image: var(--bgqs-image);
+  position: fixed;
+  float: left;
+  right: 0;
+  width: auto;
+  z-index: 1000;
 }
 
+.main-right>span {
+  padding: 6px;
+  background-color: rgba(var(--primary-rgbm), 0.9);
+  background: linear-gradient(90deg, rgba(var(--primary-rgbm), 1) 0%, rgba(var(--primary-rgbbody), 1) 100%);
+  background-position: 50% 0;
+  border: none;
+  opacity: 0.9;
+  margin: 0;
+}
 header .fill {
-    border-bottom: 0 solid rgba(255, 255, 255, 0.08) !important;
-    display: flex;
-    padding: 1rem 0
+  margin: 1rem 1rem 1rem 0;
 }
 
 .pd-primary .fill .container {
@@ -663,24 +667,35 @@ header .fill {
     align-items: center;
     width: 100%;
     background-color: rgba(255, 255, 255, 0) !important;
-    padding: 0 1rem
 }
 
 header .fill .container .flex1 {
     white-space: nowrap;
     flex: 1
 }
+.pd-primary .fill .container>div {
+  margin-right: 1rem;
+}
+.main-right .bfill {
+  padding: 0.6rem 0;
+  background-color: rgba(var(--primary-rgbbody), var(--primary-rgbm-ts));
+  display: none
+}
 
-header .fill .container .flex1 .brand {
-    color: var(--menu-color);
+.bfill .bcontainer .flex1 .brand {
+    color: var(--menu-fontcolor);
     font-family: var(--font-sans);
     font-weight: 700;
     font-size: 1.5rem;
+    padding-left: 4rem;
     text-decoration: none;
     cursor: default;
     display: none
 }
 
+.bfill .bcontainer .showWord {
+        display: none;
+}
 header .fill .status span {
     display: inline-block;
     font-size: .875rem;
@@ -763,7 +778,7 @@ span[data-indicator="uci-changes"]:before {
     font-size: 1.5rem !important;
     font-family: kucat !important;
     content: "\e936";
-    color: var(--menu-hover-color);
+    color: #0fcb16;
     text-decoration: none
 }
 
@@ -781,7 +796,7 @@ span[data-indicator="uci-changes"]:hover,
 #indicators span[data-indicator="poll-status"]:hover,
 .pdboy-qlogout:hover,
 .showSide:hover {
-    background-color: var(--menu-hover-barbgcolor) !important;
+    background-color: rgba(var(--primary-rgbm),0.1) !important;
     color: var(--menu-hover-color);
     border-radius: var(--radius1);
     text-decoration: none
@@ -797,7 +812,6 @@ span[data-indicator="uci-changes"],
     font-weight: 400 !important;
     display: inline-block;
     margin: 0;
-    padding: 1rem
 }
 
 .pdboy-qlogout:before {
@@ -823,14 +837,14 @@ span[data-indicator="uci-changes"],
 .showWord:after {
     font-size: 1.1rem;
     line-height: 1.2;
-    color: var(--menu-color);
+    color: var(--menu-fontcolor);
     text-decoration: none;
     padding: 1rem
 }
 
 .showWord {
     font-family: var(--font-sans);
-    color: var(--menu-color);
+    color: var(--menu-fontcolor);
     font-size: 1.1rem !important;
     line-height: 1.2;
     flex: auto;
@@ -2713,12 +2727,15 @@ label[data-index][data-depends] {
 
 .showSide {
     display: none;
-    color: var(--menu-hover-color);
+    color: var(--menu-fontcolor);
+    color: #13bcff;
+    border-radius: var(--radius1);
+    /* background-color: rgba(var(--primary-rgbm), 0.1) !important; */
     line-height: 1.1;
     position: inherit;
     cursor: pointer;
     text-decoration: none;
-    padding: 0.9rem
+    padding: 0.8rem
 }
 .darkMask {
   position: fixed;
@@ -3416,6 +3433,25 @@ body.lang_pl.node-main-login .cbi-value-title {
   width: 300px!important;
 }
 
+.bandix-container select,
+.bandix-container input {
+    background-color: var(--input-bgcolor);
+    color: var(--body-color);
+    padding: 0 20px 0 10px;
+    border: 1px solid var(--inputborder-color);
+
+}
+
+
+.bandix-container button {
+ color: var(--menu-color);
+}
+
+.bandix-container button:hover:not(.active) {
+  color: var(--primarytextcolor);
+
+}
+
 #dialog_reslov .dialog_box {
     width: 90% !important;
     background-color: rgba(var(--primary-rgbbody), 1)
@@ -3817,19 +3853,18 @@ input,
 }
 
 @media only screen and (max-width: 920px) {
-
-    header>.fill>.container>.flex1>.brand {
+    .main-right .bfill,
+    .bfill .bcontainer .showWord,
+    .bfill .bcontainer .flex1 .brand {
         display: inline-block
     }
 
-    header .fill .container .flex1 .brand {
+    /* 
+    .bfill .bcontainer .flex1 .brand {
         color: var(--menu-hover-color)
-    }
-
-    .main .main-left .sidenav-header .brand,
-    .showWord {
+    } */
+    .fill .container .showWord {
         display: none;
-        text-decoration: none
     }
 
     .main-left {
@@ -3848,8 +3883,9 @@ input,
     }
 
     .showSide:hover {
-        background-color: var(--menu-item-hover-bgcolor);
+        /* background-color: var(--menu-item-hover-bgcolor); */
         border-radius: var(--radius2);
+	color: #13bcff;
         text-decoration: none
     }
 
@@ -4114,7 +4150,6 @@ input,
         width: 100%
     }
 
-    /* header .fill .container .flex1 .brand, */
     .mobile-hide,
     .node-main-login footer,
     .hide-sm,
