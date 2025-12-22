@@ -631,6 +631,7 @@ footer a {
     z-index: 50;
     flex: 1;
     display: flex;
+    padding-top: 2rem;
     flex-direction: column
 }
 
@@ -658,7 +659,7 @@ header.pd-primary {
   margin: 0;
 }
 header .fill {
-  margin: 1rem 1rem 1rem 0;
+  margin: 1rem 1rem 0 0;
 }
 
 .pd-primary .fill .container {
@@ -1153,7 +1154,8 @@ li {
     border-radius: var(--radius1);
     background-color: rgba(var(--primary-rgbbody), 0.9);
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 2px 0 var(--input-boxcolor);
-    padding: 1rem
+    margin: 0.5rem;
+    padding: 0.7rem 1rem;
 }
 
 .alert-message>* {
