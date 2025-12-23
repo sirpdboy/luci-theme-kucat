@@ -651,7 +651,7 @@ header .fill {
 }
 
 .pd-primary .fill .container .flex1 {
-  margin-left: 0.5rem;
+    margin-left: 0.5rem;
     white-space: nowrap;
     flex: 1
 }
@@ -2201,9 +2201,9 @@ fieldset>fieldset {
     color: var(--primary-title-color);
     font-size: var(--font-d);
     letter-spacing: .1rem;
-      line-height: 1;
-  margin: 0;
-  padding: 1.25rem 2rem;
+    line-height: 1;
+    margin: 0;
+    padding: 1.25rem 2rem;
 }
 
 .cbi-section>h3:first-child,
@@ -2294,9 +2294,8 @@ td.cbi-value-field var,
 [data-page="admin-network-diagnostics"] .tr > .td, 
 .tr.table-titles > 
 .th, .tr.cbi-section-table-titles > .th {
-  border-top: 0 !important;
-  padding: 1.1em 1rem;
-
+    border-top: 0 !important;
+    padding: 1.1em 1rem;
     font-size: var(--font-x);
     color: var(--title-color) !important;
     border-top: 0 !important;
@@ -2984,9 +2983,7 @@ body.lang_pl.node-main-login .cbi-value-title {
     -ms-flex-pack: center;
     justify-content: center;
     text-indent: 0rem;
-    background-color: var(--input-bgcolor);
-    background: transparent content-box;
-    box-sizing: border-box;
+    background: transparent;
     width: 14rem;
     min-width: 100% !important;
     margin: 0
