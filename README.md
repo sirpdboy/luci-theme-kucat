@@ -14,6 +14,9 @@
 
 ![hello](https://views.whatilearened.today/views/github/sirpdboy/deplives.svg) [![](https://img.shields.io/badge/TG群-点击加入-FFFFFF.svg)](https://t.me/joinchat/AAAAAEpRF88NfOK5vBXGBQ)
 
+<div align="center">
+<img src="https://raw.githubusercontent.com/sirpdboy/sirpdboy/master/kucat.png">
+
 # KuCat Theme Config Plugin
 
    You can set KuCat theme font size, color scheme, shortcut tools,
@@ -30,6 +33,7 @@
 
 ![screenshots](https://raw.githubusercontent.com/sirpdboy/openwrt/master/doc/说明1.jpg)
 
+</div>
 
 # [luci-theme-kucat](https://github.com/sirpdboy/luci-theme-kucat)
 - Development time: December 2021
@@ -46,6 +50,8 @@
 - Basic BUG, adapted to all plugins currently available
 - We have made a lot of optimizations for mobile phones and other devices
 - There are matching theme setting tools, which can adjust shortcut keys, background images, and various color schemes to choose from.
+- Add a custom menu.
+- The custom menu requires the use of the luci-app-kucat-config theme setting tool version 2.2.0.
 
 # As mentioned earlier, the development of the Cool Cat theme drew inspiration and borrowed some code from Opentopd theme, Jerryk God's Argon theme, and Thinktip God's Neobird theme. Thank you for your valuable contributions!
 
@@ -103,15 +109,16 @@ opkg install luci-theme-kucat*.ipk
 ### Install for OpenWrt official SnapShots and ImmortalWrt
 
 ```bash
-wget --no-check-certificate https://github.com/sirpdboy/luci-theme-kucat/releases/download/v2.6.18/luci-theme-kucat_2.6.18-r20251018_all.ipk
+wget --no-check-certificate  https://github.com/sirpdboy/luci-theme-kucat/releases/download/v3.3.0/luci-theme-kucat_3.3.0-r20260227_all.ipk
 opkg install luci-theme-kucat*.ipk
 ```
 
 ### Install luci-app-kucat-config
 
 ```bash
-wget --no-check-certificate -O luci-theme-kucat_2.6.10-r20250720_all.ipk https://github.com/sirpdboy/luci-app-kucat-config/releases/download/v1.1.0/luci-theme-kucat_2.6.10-r20250720_all.ipk
-opkg install luci-app-kucat-config*.ipk
+wget --no-check-certificate -O luci-app-kucat-config_2.2.0-r20260227_all.ipk  https://github.com/sirpdboy/luci-app-kucat-config/releases/download/v2.2.0/luci-app-kucat-config_2.2.0-r20260227_all.ipk 
+wget --no-check-certificate -O luci-i18n-kucat-config-zh-cn_0_all.ipk  https://github.com/sirpdboy/luci-app-kucat-config/releases/download/v2.2.0/luci-i18n-kucat-config-zh-cn_0_all.ipk
+opkg install luci-app-kucat-config_2.2.0-r20260227_all.ipk  luci-i18n-kucat-config-zh-cn_0_all.ipk
 ```
 
 
